@@ -9,6 +9,14 @@ const messages = {
     cards: 'Access Cards',
     keyfobs: 'Key Fobs',
     cert: 'Miljøfyrtårn Certified',
+    exploreCta: 'Explore Products',
+    viewDetails: 'View Details',
+    whyChoose: 'Why Choose Entrynor?',
+    qualityLabel: 'Quality',
+    securityLabel: 'Security',
+    innovationLabel: 'Innovation',
+    trustLabel: 'Trust',
+    learnMore: 'Learn More',
   },
   no: {
     title: 'Premium tilgangskontrollløsninger',
@@ -18,6 +26,14 @@ const messages = {
     cards: 'Tilgangskort',
     keyfobs: 'Nøkkelbrikker',
     cert: 'Miljøfyrtårn sertifisert',
+    exploreCta: 'Utforsk produkter',
+    viewDetails: 'Vis detaljer',
+    whyChoose: 'Hvorfor velge Entrynor?',
+    qualityLabel: 'Kvalitet',
+    securityLabel: 'Sikkerhet',
+    innovationLabel: 'Innovasjon',
+    trustLabel: 'Tillit',
+    learnMore: 'Les mer',
   },
   sv: {
     title: 'Premium lösningar för åtkomstkontroll',
@@ -27,6 +43,14 @@ const messages = {
     cards: 'Åtkomstkort',
     keyfobs: 'Nyckeltaggar',
     cert: 'Miljölyktorna certifierad',
+    exploreCta: 'Utforska produkter',
+    viewDetails: 'Visa detaljer',
+    whyChoose: 'Varför välja Entrynor?',
+    qualityLabel: 'Kvalitet',
+    securityLabel: 'Säkerhet',
+    innovationLabel: 'Innovation',
+    trustLabel: 'Förtroende',
+    learnMore: 'Läs mer',
   },
   da: {
     title: 'Premium adgangskontrolløsninger',
@@ -36,6 +60,14 @@ const messages = {
     cards: 'Adgangskort',
     keyfobs: 'Nøglebrikker',
     cert: 'Miljøfyrtårn certificeret',
+    exploreCta: 'Udforsk produkter',
+    viewDetails: 'Se detaljer',
+    whyChoose: 'Hvorfor vælge Entrynor?',
+    qualityLabel: 'Kvalitet',
+    securityLabel: 'Sikkerhed',
+    innovationLabel: 'Innovation',
+    trustLabel: 'Tillid',
+    learnMore: 'Læs mere',
   },
   de: {
     title: 'Premium-Zutrittsschutzlösungen',
@@ -45,6 +77,14 @@ const messages = {
     cards: 'Zutrittskarten',
     keyfobs: 'Schlüsselanhänger',
     cert: 'Miljøfyrtårn zertifiziert',
+    exploreCta: 'Produkte erkunden',
+    viewDetails: 'Details anzeigen',
+    whyChoose: 'Warum Entrynor wählen?',
+    qualityLabel: 'Qualität',
+    securityLabel: 'Sicherheit',
+    innovationLabel: 'Innovation',
+    trustLabel: 'Vertrauen',
+    learnMore: 'Mehr erfahren',
   },
   fr: {
     title: 'Solutions premium de contrôle d\'accès',
@@ -54,6 +94,14 @@ const messages = {
     cards: 'Cartes d\'accès',
     keyfobs: 'Porte-clés',
     cert: 'Certifié Miljøfyrtårn',
+    exploreCta: 'Explorer les produits',
+    viewDetails: 'Voir les détails',
+    whyChoose: 'Pourquoi choisir Entrynor?',
+    qualityLabel: 'Qualité',
+    securityLabel: 'Sécurité',
+    innovationLabel: 'Innovation',
+    trustLabel: 'Confiance',
+    learnMore: 'En savoir plus',
   },
   es: {
     title: 'Soluciones premium de control de acceso',
@@ -63,6 +111,14 @@ const messages = {
     cards: 'Tarjetas de acceso',
     keyfobs: 'Llaveros',
     cert: 'Certificado Miljøfyrtårn',
+    exploreCta: 'Explorar productos',
+    viewDetails: 'Ver detalles',
+    whyChoose: '¿Por qué elegir Entrynor?',
+    qualityLabel: 'Calidad',
+    securityLabel: 'Seguridad',
+    innovationLabel: 'Innovación',
+    trustLabel: 'Confianza',
+    learnMore: 'Más información',
   },
 };
 
@@ -84,7 +140,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
           <h1 className="text-5xl md:text-6xl font-bold mb-6">{t.title}</h1>
           <p className="text-xl md:text-2xl mb-12 text-gray-300">{t.subtitle}</p>
           <button className="btn-primary bg-gold text-navy-900 hover:bg-yellow-400">
-            Explore Products
+            {t.exploreCta}
           </button>
         </div>
       </section>
@@ -103,7 +159,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
                 <div className="text-5xl mb-4">{product.icon}</div>
                 <h3 className="text-2xl font-semibold text-navy-900 mb-4">{product.name}</h3>
                 <p className="text-gray-600 mb-6">Premium quality access control solution</p>
-                <button className="btn-secondary">View Details</button>
+                <button className="btn-secondary">{t.viewDetails}</button>
               </div>
             ))}
           </div>
@@ -120,16 +176,16 @@ export default function HomePage({ params }: { params: { locale: string } }) {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
             Certified Miljøfyrtårn demonstrates our commitment to sustainability and environmental responsibility
           </p>
-          <button className="btn-primary">Learn More</button>
+          <button className="btn-primary">{t.learnMore}</button>
         </div>
       </section>
 
       {/* Trust Section */}
       <section className="py-20">
         <div className="container-wide text-center">
-          <h2 className="section-title mb-12">Why Choose Entrynor?</h2>
+          <h2 className="section-title mb-12">{t.whyChoose}</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {['Quality', 'Security', 'Innovation', 'Trust'].map((item, i) => (
+            {[t.qualityLabel, t.securityLabel, t.innovationLabel, t.trustLabel].map((item, i) => (
               <div key={i} className="p-8">
                 <div className="text-4xl font-bold text-gold mb-4">✓</div>
                 <h4 className="text-xl font-semibold text-navy-900 mb-3">{item}</h4>
