@@ -134,14 +134,53 @@ export default function HomePage({ params }: { params: { locale: string } }) {
         <meta property="og:description" content={t.subtitle} />
       </Head>
 
-      {/* Hero Section */}
-      <section className="min-h-screen bg-gradient-to-b from-navy-900 to-navy-800 text-white flex items-center">
-        <div className="container-wide text-center py-20">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">{t.title}</h1>
-          <p className="text-xl md:text-2xl mb-12 text-gray-300">{t.subtitle}</p>
-          <button className="btn-primary bg-gold text-navy-900 hover:bg-yellow-400">
-            {t.exploreCta}
-          </button>
+      {/* Hero Section - Narrative First */}
+      <section className="min-h-screen bg-gradient-to-br from-navy-900 via-navy-800 to-charcoal text-white flex items-center relative overflow-hidden">
+        {/* Subtle animated background */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_40%_50%,rgba(212,175,55,0.1),transparent_50%)]" />
+        <div className="container-wide relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="inline-block px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-semibold">Trusted by 1000+ European enterprises</span>
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight tracking-tight">
+                {t.title.split(' ').slice(0, 3).join(' ')}
+                <span className="text-gold"> Access Control</span>
+              </h1>
+            </div>
+            <p className="text-xl text-gray-200 leading-relaxed max-w-xl">
+              {t.subtitle}. Our premium access control systems protect enterprise operations across Scandinavia and Europe.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button className="btn-primary bg-gold text-navy-900 hover:bg-yellow-300 text-lg px-8 py-4 font-semibold">
+                {t.exploreCta}
+              </button>
+              <button className="btn-outline text-white border-white hover:bg-white/10 text-lg px-8 py-4 font-semibold">
+                Watch demo
+              </button>
+            </div>
+            <div className="flex items-center gap-8 pt-8 text-sm text-gray-300">
+              <div>
+                <div className="text-2xl font-bold text-gold">20+</div>
+                <p>Years experience</p>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-gold">ISO 27001</div>
+                <p>Certified</p>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-gold">500K+</div>
+                <p>Systems deployed</p>
+              </div>
+            </div>
+          </div>
+          <div className="hidden lg:flex items-center justify-center">
+            <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-8 w-full aspect-square flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🔐</div>
+                <p className="text-gray-300">Enterprise-grade access control</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
