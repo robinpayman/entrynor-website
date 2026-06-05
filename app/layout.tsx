@@ -25,15 +25,19 @@ export default function RootLayout({
     <html lang={params.locale || defaultLocale}>
       <head>
         <meta name="google-site-verification" content="your-verification-code" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-356169640"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX', {
+              gtag('config', 'G-356169640', {
                 page_path: window.location.pathname,
+              });
+              // Google Ads conversion tracking
+              gtag('event', 'page_view', {
+                'send_to': 'AW-490500280'
               });
             `,
           }}
