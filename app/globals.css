@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #2a2a2a;
+  background-color: #ffffff;
+}
+
+/* Premium typography */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.gold-accent {
+  color: #d4af37;
+}
+
+.navy-dark {
+  color: #1e3a5f;
+}
+
+.text-muted {
+  color: #888;
+  font-size: 0.875rem;
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-8 py-3 bg-navy-600 text-white rounded-md font-semibold text-center cursor-pointer transition-all duration-300 hover:bg-navy-700 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-3 bg-transparent border-2 border-navy-600 text-navy-600 rounded-md font-semibold text-center cursor-pointer transition-all duration-300 hover:bg-navy-50;
+  }
+
+  .btn-outline {
+    @apply px-8 py-3 bg-transparent border border-charcoal text-charcoal rounded-md font-semibold text-center cursor-pointer transition-all duration-300 hover:bg-charcoal hover:text-white;
+  }
+
+  .section-header {
+    @apply text-center mb-16;
+  }
+
+  .section-title {
+    @apply text-4xl font-bold text-navy-900 mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-gray-600 max-w-2xl mx-auto;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-soft hover:shadow-medium transition-shadow duration-300;
+  }
+
+  .card-premium {
+    @apply bg-white rounded-lg shadow-elevated border border-cream;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}

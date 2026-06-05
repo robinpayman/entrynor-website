@@ -1,0 +1,9 @@
+{
+  "nav": {"home": "Hjem", "products": "Produkter", "about": "Om os", "certification": "Certificering", "contact": "Kontakt"},
+  "hero": {"title": "Premium adgangskontrolløsninger", "subtitle": "Betroet af virksomheder i hele Europa for sikker og pålidelig adgangsstyring", "cta": "Udforsk produkter"},
+  "products": {"title": "Vores produkter", "subtitle": "Premium adgangskontrolprodukter designet til pålidelighed og sikkerhed", "armbands": "Adgangsarmbånd", "cards": "Adgangskort", "keyfobs": "Nøglebrikker", "viewDetails": "Se detaljer"},
+  "certification": {"title": "Miljøfyrtårn certificeret", "subtitle": "Miljølederskap inden for adgangskontrolteknologi", "description": "Vi er stolte af at være Miljøfyrtårn-certificeret, hvilket demonstrerer vores engagement for bæredygtighed og miljøansvar."},
+  "about": {"title": "Om Entrynor", "description": "Entrynor AS er en førende leverandør af adgangskontrolløsninger for virksomheder i hele Nordeuropa."},
+  "contact": {"title": "Kom i kontakt", "email": "info@entrynor.no", "phone": "+47 XXX XX XXX", "cta": "Kontakt os"},
+  "footer": {"copyright": "© 2026 Entrynor AS. Alle rettigheder forbeholdt.", "privacy": "Privatlivspolitik", "terms": "Vilkår"}
+}

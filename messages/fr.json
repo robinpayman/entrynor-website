@@ -1,0 +1,9 @@
+{
+  "nav": {"home": "Accueil", "products": "Produits", "about": "À propos", "certification": "Certification", "contact": "Contact"},
+  "hero": {"title": "Solutions premium de contrôle d'accès", "subtitle": "Approuvé par les entreprises de toute l'Europe pour une gestion d'accès sécurisée et fiable", "cta": "Explorer les produits"},
+  "products": {"title": "Nos produits", "subtitle": "Produits de contrôle d'accès premium conçus pour la fiabilité et la sécurité", "armbands": "Brassards d'accès", "cards": "Cartes d'accès", "keyfobs": "Porte-clés", "viewDetails": "Voir les détails"},
+  "certification": {"title": "Certifié Miljøfyrtårn", "subtitle": "Leadership environnemental dans la technologie de contrôle d'accès", "description": "Nous sommes fiers d'être certifiés Miljøfyrtårn, démontrant notre engagement envers la durabilité."},
+  "about": {"title": "À propos d'Entrynor", "description": "Entrynor AS est un fournisseur leader de solutions de contrôle d'accès pour les entreprises d'Europe du Nord."},
+  "contact": {"title": "Nous contacter", "email": "info@entrynor.no", "phone": "+47 XXX XX XXX", "cta": "Nous contacter"},
+  "footer": {"copyright": "© 2026 Entrynor AS. Tous les droits réservés.", "privacy": "Politique de confidentialité", "terms": "Conditions d'utilisation"}
+}

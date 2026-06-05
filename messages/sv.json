@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Hem",
+    "products": "Produkter",
+    "about": "Om oss",
+    "certification": "Certifiering",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "title": "Premium lösningar för åtkomstkontroll",
+    "subtitle": "Betrodd av företag över hela Europa för säker och tillförlitlig åtkomsthantering",
+    "cta": "Utforska produkter"
+  },
+  "products": {
+    "title": "Våra produkter",
+    "subtitle": "Premium åtkomstkontrollprodukter utformade för tillförlitlighet och säkerhet",
+    "armbands": "Åtkomstarmbånd",
+    "cards": "Åtkomstkort",
+    "keyfobs": "Nyckeltaggar",
+    "viewDetails": "Visa detaljer"
+  },
+  "certification": {
+    "title": "Miljölyktorna certifierad",
+    "subtitle": "Miljöledning inom åtkomstkontrollteknik",
+    "description": "Vi är stolta över att vara Miljölyktorna-certifierad, vilket visar vårt engagemang för hållbarhet och miljöansvar i all vår verksamhet."
+  },
+  "about": {
+    "title": "Om Entrynor",
+    "description": "Entrynor AS är en ledande leverantör av åtkomstkontrollösningar för företag över hela Nordeuropa. Med decenniers erfarenhet levererar vi säkra, tillförlitliga och innovativa produkter."
+  },
+  "contact": {
+    "title": "Få i kontakt",
+    "email": "info@entrynor.no",
+    "phone": "+47 XXX XX XXX",
+    "cta": "Kontakta oss"
+  },
+  "footer": {
+    "copyright": "© 2026 Entrynor AS. Alla rättigheter reserverade.",
+    "privacy": "Sekretesspolicy",
+    "terms": "Villkor"
+  }
+}
