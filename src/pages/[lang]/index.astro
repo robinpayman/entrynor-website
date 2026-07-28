@@ -87,7 +87,7 @@ const capabilities = [
       </section>
 
       <section class="full-width-image">
-        <img src="/images/hero/entrynor-products.jpg" alt="Entrynor Products" />
+        <div class="image-background" style="background-image: url('/images/hero/entrynor-products.jpg')"></div>
       </section>
 
       <section class="section proof">
@@ -405,12 +405,17 @@ const capabilities = [
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
+    height: clamp(300px, 50vh, 600px);
+    overflow: hidden;
   }
 
-  .full-width-image img {
+  .image-background {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    mix-blend-mode: multiply;
   }
 
   .contact-wrapper {
