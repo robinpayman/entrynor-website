@@ -44,10 +44,8 @@ const steps = lang === "no"
         <div class="step-content">
           <h3 class="step-title">{step.title}</h3>
           <p class="step-description">{step.description}</p>
-          {index === 0 && <div class="down-arrow">↓</div>}
         </div>
       </div>
-      {index < steps.length - 1 && <div class="step-connector"></div>}
     </>
   ))}
 </div>
@@ -85,7 +83,9 @@ const steps = lang === "no"
   .step-content {
     flex: 1;
     overflow: visible;
+    position: relative;
   }
+
 
   .step-title {
     margin: 0 0 0.75rem 0;
@@ -105,29 +105,6 @@ const steps = lang === "no"
     letter-spacing: 0.02em;
   }
 
-  .down-arrow {
-    margin-top: 2rem;
-    color: #c4a669;
-    font-size: 2rem;
-    line-height: 1;
-    opacity: 1;
-    animation: bounce 2s infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(0.5rem); }
-  }
-
-  .step-connector {
-    position: absolute;
-    top: clamp(18px, 3.5vw, 28px);
-    left: calc(25% + clamp(25px, 4vw, 35px));
-    width: clamp(1.5rem, 3vw, 2.5rem);
-    height: 2px;
-    background: linear-gradient(90deg, #c4a669 0%, transparent 100%);
-    z-index: 0;
-  }
 
   /* Responsive */
   @media (max-width: 900px) {
