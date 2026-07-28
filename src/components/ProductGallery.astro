@@ -6,18 +6,18 @@ interface Props {
 const { lang = "no" } = Astro.props;
 
 const products = [
-  { id: 1, name: "Wristband", image: "/images/products/wristband-black.jpg" },
-  { id: 2, name: "Wristband Navy", image: "/images/products/wristband-navy.jpg" },
-  { id: 3, name: "Wristband Classic", image: "/images/products/wristband-classic.jpg" },
-  { id: 4, name: "Wristband Taupe", image: "/images/products/wristband-taupe.jpg" },
-  { id: 5, name: "Mesh Bracelet", image: "/images/products/mesh-bracelet.jpg" },
-  { id: 6, name: "Woven Bracelet", image: "/images/products/woven-bracelet.jpg" },
-  { id: 7, name: "Adjustable Band Navy", image: "/images/products/adjustable-navy.jpg" },
-  { id: 8, name: "Adjustable Band Green", image: "/images/products/adjustable-green.jpg" },
-  { id: 9, name: "Watch", image: "/images/products/watch-black.jpg" },
-  { id: 10, name: "Wooden Card", image: "/images/products/wooden-card-dark.jpg" },
-  { id: 11, name: "Wooden Card Light", image: "/images/products/wooden-card-light.jpg" },
-  { id: 12, name: "Wooden Keychain", image: "/images/products/wooden-keychain.jpg" },
+  { id: 1, name: "Wristband" },
+  { id: 2, name: "Wristband Navy" },
+  { id: 3, name: "Wristband Classic" },
+  { id: 4, name: "Wristband Taupe" },
+  { id: 5, name: "Mesh Bracelet" },
+  { id: 6, name: "Woven Bracelet" },
+  { id: 7, name: "Adjustable Band Navy" },
+  { id: 8, name: "Adjustable Band Green" },
+  { id: 9, name: "Watch" },
+  { id: 10, name: "Wooden Card" },
+  { id: 11, name: "Wooden Card Light" },
+  { id: 12, name: "Wooden Keychain" },
 ];
 ---
 
@@ -37,7 +37,7 @@ const products = [
       {products.map((product) => (
         <div class="product-item">
           <div class="product-image">
-            <img src={product.image} alt={product.name} />
+            <div class="product-placeholder">{product.name}</div>
           </div>
           <p class="product-name">{product.name}</p>
         </div>
@@ -122,11 +122,17 @@ const products = [
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
   }
 
-  .product-image img {
+  .product-placeholder {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(243, 239, 230, 0.3);
+    font-size: 0.8rem;
+    text-align: center;
     padding: 1.5rem;
+    font-style: italic;
   }
 
   .product-name {
