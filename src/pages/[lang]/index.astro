@@ -86,6 +86,10 @@ const capabilities = [
         </div>
       </section>
 
+      <section class="full-width-image">
+        <img src="/images/hero/entrynor-products.jpg" alt="Entrynor Products" />
+      </section>
+
       <section class="section proof">
         <div>
           <h3>{t("selective")}</h3>
@@ -99,10 +103,6 @@ const capabilities = [
           <h3>{t("confidential")}</h3>
           <p>{t("confidentialDesc")}</p>
         </div>
-      </section>
-
-      <section class="section parallax-section">
-        <div class="parallax-container" id="parallax"></div>
       </section>
 
       <section id="contact" class="section contact">
@@ -398,23 +398,19 @@ const capabilities = [
     line-height: 1.75;
   }
 
-  .parallax-section {
-    padding: 0;
-    overflow: visible;
-    border-top: none !important;
-    margin: clamp(5rem, 12vw, 9rem) 0;
+  .full-width-image {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 
-  .parallax-container {
+  .full-width-image img {
     width: 100%;
-    height: clamp(500px, 60vh, 900px);
-    position: relative;
-    background: url('/images/hero/entrynor-products.jpg') center / cover;
-    background-attachment: fixed;
-    background-position: center;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    height: auto;
+    display: block;
   }
 
   .contact-wrapper {
