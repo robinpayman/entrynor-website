@@ -44,10 +44,9 @@ export const translations = {
     confidentialDesc: "Vi respekterer merkene vi betjener og holder søkelyset der det hører til.",
 
     // Contact Section
-    privateInquiries: "Private henvendelser",
+    privateInquiries: "Kontakt",
     forBrands: "For merker som søker en seriøs produksjonspartner.",
-    tellUs:
-      "Fortell oss hva du bygger, standarden du forventer, og hvor pålitelighet betyr mest. Vi vil svare med diskresjon.",
+    tellUs: "",
 
     // Contact Form
     yourName: "Ditt navn",
@@ -115,9 +114,9 @@ export const translations = {
     confidentialDesc: "We respect the brands we serve and keep the spotlight where it belongs.",
 
     // Contact Section
-    privateInquiries: "Private inquiries",
+    privateInquiries: "Contact",
     forBrands: "For brands seeking a serious manufacturing partner.",
-    tellUs: "Tell us what you are building, the standard you expect, and where reliability matters most. We will respond with discretion.",
+    tellUs: "",
 
     // Contact Form
     yourName: "Your Name",
