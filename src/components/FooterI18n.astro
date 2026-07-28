@@ -28,13 +28,6 @@ const year = new Date().getFullYear();
         <p>{address}</p>
       </div>
 
-      <!-- Legal -->
-      <div class="footer-section footer-center">
-        <ul class="footer-links">
-          <li><a href={`/${lang}/privacy`}>{t("privacyPolicy")}</a></li>
-          <li><a href={`/${lang}/terms`}>{t("termsConditions")}</a></li>
-        </ul>
-      </div>
     </div>
 
     <!-- Bottom Bar -->
@@ -73,24 +66,27 @@ const year = new Date().getFullYear();
   }
 
   .footer-center p {
-    color: rgba(243, 239, 230, 0.6);
-    font-size: 0.9rem;
+    color: rgba(243, 239, 230, 0.62);
+    font-size: 0.78rem;
     line-height: 1.5;
     margin: 0;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: #f3efe6;
     margin: 0;
   }
 
   h4 {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(243, 239, 230, 0.7);
     margin: 0;
