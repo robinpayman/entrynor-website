@@ -17,11 +17,11 @@ export const translations = {
 
     // Hero Section
     tagline: "Norsk leverandør - Globale kunder",
-    heroTitle: "Produksjon for merker som ikke kan kompromisse.",
+    heroTitle: "",
     heroDescription:
-      "Entrynor samarbeider med selektive bedrifter for å utvikle, sourcing og levere premium produkter med stille presisjon. Ingen katalognøkkel. Ingen priskrig. Bare nøye kontrollert forsyning for merker som verdsetter tillit.",
-    startConversation: "Start en privat samtale",
-    discreetByDesign: "Diskret etter design",
+      "",
+    startConversation: "Kontakt",
+    discreetByDesign: "",
 
     // Capabilities Section
     whatWeDo: "Hva vi gjør",
@@ -49,18 +49,18 @@ export const translations = {
     tellUs: "",
 
     // Contact Form
-    yourName: "Ditt navn",
+    yourName: "Navn",
     fullName: "Fullt navn",
-    company: "Bedrift",
-    companyName: "Bedriftsnavn",
+    company: "",
+    companyName: "",
     email: "E-post",
     emailPlaceholder: "navn@bedrift.no",
     phone: "Telefon",
     phonePlaceholder: "+47 XX XX XX XX",
-    tellUsAboutProject: "Fortell oss om prosjektet ditt",
-    projectPlaceholder: "Hva bygger du? Hvilke standarder betyr mest?",
-    privacy: "Jeg godtar å holde kommunikasjon konfidensielt og respekterer personvern",
-    sendInquiry: "Send henvendelse",
+    tellUsAboutProject: "Melding",
+    projectPlaceholder: "Beskriv ditt prosjekt",
+    privacy: "Jeg godtar å bli kontaktet, send henvendelse",
+    sendInquiry: "",
     formNotice: "Vi svarer vanligvis innen 24 timer.",
     messageSent: "Melding sendt",
 
@@ -87,11 +87,11 @@ export const translations = {
 
     // Hero Section
     tagline: "Norwegian supplier - Global customers",
-    heroTitle: "Manufacturing for brands that cannot compromise.",
+    heroTitle: "",
     heroDescription:
-      "Entrynor partners with selective companies to develop, source, and deliver premium products with quiet precision. No catalogue noise. No price chasing. Only carefully controlled supply for brands that value confidence.",
-    startConversation: "Start a private conversation",
-    discreetByDesign: "Discreet by design",
+      "",
+    startConversation: "Contact",
+    discreetByDesign: "",
 
     // Capabilities Section
     whatWeDo: "What we do",
@@ -119,18 +119,18 @@ export const translations = {
     tellUs: "",
 
     // Contact Form
-    yourName: "Your Name",
+    yourName: "Name",
     fullName: "Full name",
-    company: "Company",
-    companyName: "Company name",
+    company: "",
+    companyName: "",
     email: "Email",
     emailPlaceholder: "name@company.com",
     phone: "Phone",
     phonePlaceholder: "+47 XX XX XX XX",
-    tellUsAboutProject: "Tell us about your project",
-    projectPlaceholder: "What are you building? What standards matter most?",
-    privacy: "I agree to keep communications confidential and respect privacy",
-    sendInquiry: "Send Inquiry",
+    tellUsAboutProject: "Message",
+    projectPlaceholder: "Describe your project",
+    privacy: "I agree to be contacted, send inquiry",
+    sendInquiry: "",
     formNotice: "We typically respond within 24 hours.",
     messageSent: "Message Sent",
 

@@ -11,55 +11,51 @@ const { lang } = Astro.props;
 const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
 ---
 
-<form class="contact-form" id="contactForm" method="POST" action={`/${lang}/api/contact`} data-email={CONTACT_EMAIL}>
-	<div class="form-section">
-		<div class="form-group">
-			<label for="name">{t("yourName")}</label>
-			<input
-				type="text"
-				id="name"
-				name="name"
-				placeholder={t("fullName")}
-				required
-				aria-required="true"
-			/>
-		</div>
-
-		<div class="form-group">
-			<label for="company">{t("company")}</label>
-			<input
-				type="text"
-				id="company"
-				name="company"
-				placeholder={t("companyName")}
-				required
-				aria-required="true"
-			/>
-		</div>
+<form class="contact-form" id="contactForm" method="POST" action={`/${lang}/api/contact`} data-email={CONTACT_EMAIL} novalidate>
+	<div class="form-group">
+		<label for="name">{t("yourName")}</label>
+		<input
+			type="text"
+			id="name"
+			name="name"
+			placeholder={t("fullName")}
+			required
+			aria-required="true"
+		/>
 	</div>
 
-	<div class="form-section">
-		<div class="form-group">
-			<label for="email">{t("email")}</label>
-			<input
-				type="email"
-				id="email"
-				name="email"
-				placeholder={t("emailPlaceholder")}
-				required
-				aria-required="true"
-			/>
-		</div>
+	<div class="form-group" style="display: none;">
+		<label for="company">{t("company")}</label>
+		<input
+			type="text"
+			id="company"
+			name="company"
+			placeholder={t("companyName")}
+			required
+			aria-required="true"
+		/>
+	</div>
 
-		<div class="form-group">
-			<label for="phone">{t("phone")}</label>
-			<input
-				type="tel"
-				id="phone"
-				name="phone"
-				placeholder={t("phonePlaceholder")}
-			/>
-		</div>
+	<div class="form-group">
+		<label for="email">{t("email")}</label>
+		<input
+			type="email"
+			id="email"
+			name="email"
+			placeholder={t("emailPlaceholder")}
+			required
+			aria-required="true"
+		/>
+	</div>
+
+	<div class="form-group">
+		<label for="phone">{t("phone")}</label>
+		<input
+			type="tel"
+			id="phone"
+			name="phone"
+			placeholder={t("phonePlaceholder")}
+		/>
 	</div>
 
 	<div class="form-group">
@@ -68,26 +64,13 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			id="message"
 			name="message"
 			placeholder={t("projectPlaceholder")}
-			rows="6"
-			required
+				rows="2"
+				required
 			aria-required="true"
 		></textarea>
 	</div>
 
-	<div class="form-group checkbox">
-		<input
-			type="checkbox"
-			id="privacy"
-			name="privacy"
-			required
-			aria-required="true"
-		/>
-		<label for="privacy">
-			{t("privacy")}
-		</label>
-	</div>
-
-	<button type="submit" class="submit-button">{t("sendInquiry")}</button>
+	<button type="submit" class="submit-button">{t("privacy")}</button>
 	<p class="form-notice">{t("formNotice")}</p>
 </form>
 
@@ -99,9 +82,6 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		width: 100%;
 	}
 
-	.form-section {
-		display: contents;
-	}
 
 	.form-group {
 		display: flex;
@@ -159,7 +139,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 	textarea {
 		resize: vertical;
-		min-height: 120px;
+		min-height: 60px;
 		font-family: inherit;
 		line-height: 1.6;
 	}
@@ -172,7 +152,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		cursor: pointer;
 	}
 
-	.form-group:nth-child(n+3),
+	.form-group:nth-child(4),
 	.submit-button,
 	.form-notice {
 		grid-column: 1 / -1;
@@ -216,15 +196,34 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		letter-spacing: 0.02em;
 	}
 
+	input.has-error,
+	textarea.has-error {
+		border-color: rgba(196, 166, 105, 0.6);
+	}
+
+	input.has-error:focus,
+	textarea.has-error:focus {
+		border-color: rgba(196, 166, 105, 0.8);
+		box-shadow: 0 0 0 3px rgba(196, 166, 105, 0.15);
+	}
+
 	/* Responsive */
+	@media (max-width: 900px) {
+		.contact-form {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+
 	@media (max-width: 600px) {
-		.form-row {
+		.contact-form {
 			grid-template-columns: 1fr;
-			gap: 1.5rem;
+			gap: 1.2rem;
 		}
 
-		.contact-form {
-			gap: 1.2rem;
+		.form-group:nth-child(n+3),
+		.submit-button,
+		.form-notice {
+			grid-column: 1;
 		}
 
 		input[type="text"],
@@ -240,8 +239,33 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 	const form = document.getElementById("contactForm");
 
 	if (form) {
+		const inputs = form.querySelectorAll('input[required], textarea[required]');
+		inputs.forEach(input => {
+			input.addEventListener('invalid', (e) => {
+				e.preventDefault();
+			}, true);
+			input.addEventListener('input', () => {
+				input.classList.remove('has-error');
+			});
+
+			input.addEventListener('focus', () => {
+				input.classList.remove('has-error');
+			});
+		});
+
 		form.addEventListener("submit", async (e) => {
 			e.preventDefault();
+			// Manual validation
+			let isValid = true;
+			inputs.forEach(input => {
+				if (!input.checkValidity()) {
+					isValid = false;
+					input.classList.add('has-error');
+				}
+			});
+			if (!isValid) {
+				return;
+			}
 
 			const formData = new FormData(form);
 			const data = Object.fromEntries(formData);
@@ -264,6 +288,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 					// Reset form
 					form.reset();
+					inputs.forEach(input => input.classList.remove('has-error'));
 
 					// Reset button after 3 seconds
 					setTimeout(() => {

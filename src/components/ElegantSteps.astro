@@ -8,30 +8,30 @@ const { lang = "no" } = Astro.props;
 const steps = lang === "no" 
   ? [
       {
-        title: "Ta kontakt",
-        description: "Send mail til info@entrynor.no. Vi svarer deg innen 24 timer.",
+        title: "Kontakt",
+        description: "",
       },
       {
-        title: "Funksjonalitet",
-        description: "Gratis design. Vi blir enige om design. Har du ikke, hjelper vi deg med det.",
+        title: "Ekslusiv design & funksjonalitet",
+        description: "Vi eier prosessen fra sikkerhet til design - du lener deg tilbake",
       },
       {
-        title: "Levert på døren",
-        description: "Produksjon. Vi sender dine produkter til deg – levert på døren hvor du vil.",
+        title: "Levering",
+        description: "Vi leverer til våre kunder globalt",
       },
     ]
   : [
       {
-        title: "Get in Touch",
-        description: "Send email to info@entrynor.no. We respond within 24 hours.",
+        title: "Contact",
+        description: "",
       },
       {
-        title: "Functionality",
-        description: "Free design. We agree on the design. If you don't have one, we help you with it.",
+        title: "Exclusive Design & Functionality",
+        description: "We own the process from security to design - you lean back",
       },
       {
-        title: "Delivered to Your Door",
-        description: "Production. We send your products to you – delivered to your door where you want.",
+        title: "Delivery",
+        description: "We deliver to our customers globally",
       },
     ];
 ---
@@ -44,6 +44,7 @@ const steps = lang === "no"
         <div class="step-content">
           <h3 class="step-title">{step.title}</h3>
           <p class="step-description">{step.description}</p>
+          {index === 0 && <div class="down-arrow">↓</div>}
         </div>
       </div>
       {index < steps.length - 1 && <div class="step-connector"></div>}
@@ -83,6 +84,7 @@ const steps = lang === "no"
 
   .step-content {
     flex: 1;
+    overflow: visible;
   }
 
   .step-title {
@@ -101,6 +103,14 @@ const steps = lang === "no"
     color: rgba(243, 239, 230, 0.7);
     line-height: 1.6;
     letter-spacing: 0.02em;
+  }
+
+  .down-arrow {
+    margin-top: 1rem;
+    color: #c4a669;
+    font-size: 1.6rem;
+    line-height: 1;
+    opacity: 0.85;
   }
 
   .step-connector {
