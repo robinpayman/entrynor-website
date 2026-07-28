@@ -5,6 +5,7 @@ import ContactFormI18n from "../../components/ContactFormI18n.astro";
 import FooterI18n from "../../components/FooterI18n.astro";
 import Logo from "../../components/Logo.astro";
 import ProductShowcase from "../../components/ProductShowcase.astro";
+import ProductGallery from "../../components/ProductGallery.astro";
 
 export const prerender = true;
 
@@ -99,6 +100,10 @@ const capabilities = [
           <h3>{t("confidential")}</h3>
           <p>{t("confidentialDesc")}</p>
         </div>
+      </section>
+
+      <section class="section">
+        <ProductGallery lang={lang} />
       </section>
 
       <section id="contact" class="section contact">
