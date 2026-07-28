@@ -38,47 +38,36 @@ const steps = lang === "no"
 
 <div class="steps-container">
   {steps.map((step, index) => (
-    <>
-      <div class="step">
-        <div class="step-number">{index + 1}</div>
-        <div class="step-content">
-          <h3 class="step-title">{step.title}</h3>
-          <p class="step-description">{step.description}</p>
-        </div>
+    <div class="step" key={index}>
+      <div class="step-content">
+        <h3 class="step-title">{step.title}</h3>
+        <p class="step-description">{step.description}</p>
       </div>
-    </>
+    </div>
   ))}
 </div>
 
 <style>
   .steps-container {
     display: flex;
-    align-items: flex-start;
-    gap: clamp(2rem, 5vw, 4rem);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(3rem, 8vw, 5rem);
     position: relative;
+    text-align: center;
   }
 
   .step {
     flex: 1;
     display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
     position: relative;
+    max-width: 500px;
   }
 
-  .step-number {
-    width: clamp(32px, 6vw, 45px);
-    height: clamp(32px, 6vw, 45px);
-    min-width: clamp(32px, 6vw, 45px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1.5px solid rgba(196, 166, 105, 0.6);
-    border-radius: 50%;
-    font-weight: 600;
-    color: rgba(196, 166, 105, 0.8);
-    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-  }
 
   .step-content {
     flex: 1;
@@ -89,20 +78,20 @@ const steps = lang === "no"
 
   .step-title {
     margin: 0 0 0.5rem 0;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
     font-weight: 600;
-    color: rgba(196, 166, 105, 0.9);
-    letter-spacing: 0.06em;
+    color: rgba(243, 239, 230, 0.8);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   .step-description {
     margin: 0;
-    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
     font-weight: 400;
-    color: rgba(243, 239, 230, 0.6);
-    line-height: 1.5;
-    letter-spacing: 0.01em;
+    color: rgba(243, 239, 230, 0.65);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
   }
 
 
