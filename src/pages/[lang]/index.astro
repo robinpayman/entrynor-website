@@ -5,6 +5,7 @@ import ContactFormI18n from "../../components/ContactFormI18n.astro";
 import FooterI18n from "../../components/FooterI18n.astro";
 import Logo from "../../components/Logo.astro";
 import ProductShowcase from "../../components/ProductShowcase.astro";
+import ElegantSteps from "../../components/ElegantSteps.astro";
 
 export const prerender = true;
 
@@ -90,19 +91,8 @@ const capabilities = [
         <div class="image-background" style="background-image: url('/images/hero/entrynor-products.jpg')"></div>
       </section>
 
-      <section class="section proof">
-        <div>
-          <h3>{t("selective")}</h3>
-          <p>{t("selectiveDesc")}</p>
-        </div>
-        <div>
-          <h3>{t("controlled")}</h3>
-          <p>{t("controlledDesc")}</p>
-        </div>
-        <div>
-          <h3>{t("confidential")}</h3>
-          <p>{t("confidentialDesc")}</p>
-        </div>
+      <section class="section">
+        <ElegantSteps lang={lang} />
       </section>
 
       <section id="contact" class="section contact">

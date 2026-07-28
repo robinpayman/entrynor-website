@@ -1,0 +1,152 @@
+---
+interface Props {
+  lang?: "no" | "en";
+}
+
+const { lang = "no" } = Astro.props;
+
+const steps = lang === "no" 
+  ? [
+      {
+        title: "Ta kontakt",
+        description: "Send mail til info@entrynor.no. Vi svarer deg innen 24 timer.",
+      },
+      {
+        title: "Funksjonalitet",
+        description: "Gratis design. Vi blir enige om design. Har du ikke, hjelper vi deg med det.",
+      },
+      {
+        title: "Levert på døren",
+        description: "Produksjon. Vi sender dine produkter til deg – levert på døren hvor du vil.",
+      },
+    ]
+  : [
+      {
+        title: "Get in Touch",
+        description: "Send email to info@entrynor.no. We respond within 24 hours.",
+      },
+      {
+        title: "Functionality",
+        description: "Free design. We agree on the design. If you don't have one, we help you with it.",
+      },
+      {
+        title: "Delivered to Your Door",
+        description: "Production. We send your products to you – delivered to your door where you want.",
+      },
+    ];
+---
+
+<div class="steps-container">
+  {steps.map((step, index) => (
+    <>
+      <div class="step">
+        <div class="step-number">{index + 1}</div>
+        <div class="step-content">
+          <h3 class="step-title">{step.title}</h3>
+          <p class="step-description">{step.description}</p>
+        </div>
+      </div>
+      {index < steps.length - 1 && <div class="step-connector"></div>}
+    </>
+  ))}
+</div>
+
+<style>
+  .steps-container {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(2rem, 5vw, 4rem);
+    position: relative;
+  }
+
+  .step {
+    flex: 1;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .step-number {
+    width: clamp(40px, 8vw, 60px);
+    height: clamp(40px, 8vw, 60px);
+    min-width: clamp(40px, 8vw, 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #c4a669;
+    border-radius: 50%;
+    font-weight: 600;
+    color: #c4a669;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+  }
+
+  .step-content {
+    flex: 1;
+  }
+
+  .step-title {
+    margin: 0 0 0.75rem 0;
+    font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+    font-weight: 600;
+    color: #c4a669;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .step-description {
+    margin: 0;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-weight: 400;
+    color: rgba(243, 239, 230, 0.7);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .step-connector {
+    position: absolute;
+    top: clamp(20px, 4vw, 30px);
+    left: calc(50% + clamp(20px, 4vw, 30px));
+    width: clamp(1.5rem, 3vw, 2.5rem);
+    height: 2px;
+    background: linear-gradient(90deg, #c4a669 0%, transparent 100%);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .steps-container {
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .step {
+      gap: 1.2rem;
+    }
+
+    .step-connector {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .steps-container {
+      gap: 2rem;
+    }
+
+    .step {
+      gap: 1rem;
+    }
+
+    .step-number {
+      font-size: 1rem;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+    }
+
+    .step-description {
+      font-size: 0.85rem;
+    }
+  }
+</style>
