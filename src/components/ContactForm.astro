@@ -1,0 +1,266 @@
+---
+// ContactForm.astro - A premium contact form component
+---
+
+<form class="contact-form" id="contactForm" method="POST" action="/api/contact">
+	<div class="form-group">
+		<label for="name">Your Name</label>
+		<input
+			type="text"
+			id="name"
+			name="name"
+			placeholder="Full name"
+			required
+			aria-required="true"
+		/>
+	</div>
+
+	<div class="form-group">
+		<label for="company">Company</label>
+		<input
+			type="text"
+			id="company"
+			name="company"
+			placeholder="Company name"
+			required
+			aria-required="true"
+		/>
+	</div>
+
+	<div class="form-row">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input
+				type="email"
+				id="email"
+				name="email"
+				placeholder="name@company.com"
+				required
+				aria-required="true"
+			/>
+		</div>
+
+		<div class="form-group">
+			<label for="phone">Phone</label>
+			<input
+				type="tel"
+				id="phone"
+				name="phone"
+				placeholder="+47 XX XX XX XX"
+			/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="message">Tell us about your project</label>
+		<textarea
+			id="message"
+			name="message"
+			placeholder="What are you building? What standards matter most?"
+			rows="6"
+			required
+			aria-required="true"
+		></textarea>
+	</div>
+
+	<div class="form-group checkbox">
+		<input
+			type="checkbox"
+			id="privacy"
+			name="privacy"
+			required
+			aria-required="true"
+		/>
+		<label for="privacy">
+			I agree to keep communications confidential and respect privacy
+		</label>
+	</div>
+
+	<button type="submit" class="submit-button">Send Inquiry</button>
+	<p class="form-notice">We typically respond within 24 hours.</p>
+</form>
+
+<style>
+	.contact-form {
+		display: grid;
+		gap: 1.5rem;
+		max-width: 600px;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+
+	.form-group.checkbox {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
+
+	label {
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: #f3efe6;
+		letter-spacing: 0.03em;
+	}
+
+	.form-group.checkbox label {
+		font-weight: 400;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		margin-top: 0.2rem;
+		color: rgba(243, 239, 230, 0.8);
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	textarea {
+		padding: 0.9rem 1rem;
+		border: 1px solid rgba(243, 239, 230, 0.15);
+		background: rgba(255, 255, 255, 0.03);
+		color: #f3efe6;
+		font-family: inherit;
+		font-size: 0.95rem;
+		border-radius: 2px;
+		transition:
+			border-color 180ms ease,
+			background 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="tel"]:focus,
+	textarea:focus {
+		outline: none;
+		border-color: rgba(196, 166, 105, 0.6);
+		background: rgba(255, 255, 255, 0.05);
+		box-shadow: 0 0 0 3px rgba(196, 166, 105, 0.1);
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 120px;
+		font-family: inherit;
+		line-height: 1.6;
+	}
+
+	input[type="checkbox"] {
+		width: 18px;
+		height: 18px;
+		margin-top: 3px;
+		accent-color: rgba(196, 166, 105, 0.7);
+		cursor: pointer;
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+
+	.submit-button {
+		min-height: 3.2rem;
+		padding: 0 1.6rem;
+		margin-top: 1rem;
+		border: 1px solid rgba(196, 166, 105, 0.52);
+		background: rgba(196, 166, 105, 0.08);
+		color: #f7e6bd;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		cursor: pointer;
+		border-radius: 2px;
+		transition:
+			border-color 180ms ease,
+			background 180ms ease,
+			transform 180ms ease;
+		font-family: inherit;
+	}
+
+	.submit-button:hover {
+		border-color: rgba(247, 230, 189, 0.9);
+		background: rgba(196, 166, 105, 0.15);
+		transform: translateY(-1px);
+	}
+
+	.submit-button:active {
+		transform: translateY(0);
+	}
+
+	.form-notice {
+		font-size: 0.8rem;
+		color: rgba(243, 239, 230, 0.45);
+		margin: 0;
+		text-align: center;
+		letter-spacing: 0.02em;
+	}
+
+	/* Responsive */
+	@media (max-width: 600px) {
+		.form-row {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+		}
+
+		.contact-form {
+			gap: 1.2rem;
+		}
+
+		input[type="text"],
+		input[type="email"],
+		input[type="tel"],
+		textarea {
+			font-size: 16px; /* Prevents iOS zoom on input */
+		}
+	}
+</style>
+
+<script>
+	const form = document.getElementById("contactForm");
+
+	if (form) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+
+			const formData = new FormData(form);
+			const data = Object.fromEntries(formData);
+
+			try {
+				const response = await fetch("/api/contact", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				});
+
+				if (response.ok) {
+					// Show success message
+					const submitButton = form.querySelector(".submit-button");
+					const originalText = submitButton.textContent;
+					submitButton.textContent = "Message Sent";
+					submitButton.disabled = true;
+
+					// Reset form
+					form.reset();
+
+					// Reset button after 3 seconds
+					setTimeout(() => {
+						submitButton.textContent = originalText;
+						submitButton.disabled = false;
+					}, 3000);
+				} else {
+					alert("There was an error sending your message. Please try again.");
+				}
+			} catch (error) {
+				console.error("Form submission error:", error);
+				alert("There was an error sending your message. Please try again.");
+			}
+		});
+	}
+</script>

@@ -1,0 +1,107 @@
+---
+interface Props {
+  lang?: "no" | "en";
+}
+
+const { lang = "no" } = Astro.props;
+
+const titles = {
+  no: {
+    certification: "Sertifisert virksomhet",
+    description: "Vi er sertifisert av Miljøfyrtårn, som bekrefter vår dedikasjon til bærekraft og miljøansvar i all vår produksjon.",
+  },
+  en: {
+    certification: "Certified Company",
+    description: "We are certified by Miljøfyrtårn, confirming our dedication to sustainability and environmental responsibility in all our manufacturing.",
+  },
+};
+
+const t = titles[lang] || titles.no;
+---
+
+<section class="certification-section">
+  <div class="certification-container">
+    <div class="certification-badge">
+      <img src="/images/miljoefyrtaarn.png" alt="Miljøfyrtårn - Sertifisert virksomhet" />
+    </div>
+    <div class="certification-content">
+      <h3>{t.certification}</h3>
+    </div>
+  </div>
+</section>
+
+<style>
+  .certification-section {
+    width: min(100% - 2.5rem, 1180px);
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    border-top: 1px solid rgba(243, 239, 230, 0.09);
+  }
+
+  .certification-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(2rem, 6vw, 4rem);
+  }
+
+  .certification-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .certification-badge img {
+    max-width: 100%;
+    height: auto;
+    width: clamp(60px, 7.5vw, 100px);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  }
+
+  .certification-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .certification-content h3 {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 300;
+    color: rgba(243, 239, 230, 0.9);
+    margin: 0;
+    letter-spacing: -0.025em;
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .certification-container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .certification-badge img {
+      width: clamp(50px, 20vw, 75px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .certification-section {
+      padding: 2.5rem 0;
+    }
+
+    .certification-container {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .certification-badge img {
+      width: clamp(40px, 25vw, 60px);
+    }
+
+    .certification-content h3 {
+      font-size: 1.2rem;
+    }
+  }
+</style>

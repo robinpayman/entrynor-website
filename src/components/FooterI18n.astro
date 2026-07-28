@@ -1,0 +1,210 @@
+---
+import type { Language } from "../utils/i18n";
+import { getTranslation, COMPANY_NAME } from "../utils/i18n";
+
+interface Props {
+  lang: Language;
+  email?: string;
+  address?: string;
+}
+
+const { 
+  lang,
+  email = "contact@entrynor.no",
+  address = "Norway"
+} = Astro.props;
+
+const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <!-- Brand & Description -->
+      <div class="footer-section footer-brand">
+        <h3>{COMPANY_NAME}</h3>
+        <p>{t("footerDescription")}</p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-section">
+        <h4>{t("footerContact")}</h4>
+        <ul class="footer-links">
+          <li>
+            <a href={`mailto:${email}`}>{email}</a>
+          </li>
+          <li>{address}</li>
+        </ul>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h4>{t("footerNavigate")}</h4>
+        <ul class="footer-links">
+          <li><a href={`#capabilities`}>{t("capabilities")}</a></li>
+          <li><a href={`#standard`}>{t("standard")}</a></li>
+          <li><a href={`#contact`}>{t("contact")}</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer-section">
+        <h4>{t("footerLegal")}</h4>
+        <ul class="footer-links">
+          <li><a href={`/${lang}/privacy`}>{t("privacyPolicy")}</a></li>
+          <li><a href={`/${lang}/terms`}>{t("termsConditions")}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <p>{t("allRightsReserved").replace("{{year}}", year.toString())}</p>
+      <p class="footer-tagline">{t("exclusiveSupply")}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid rgba(243, 239, 230, 0.09);
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.4), rgba(5, 5, 5, 0.8));
+    margin-top: clamp(5rem, 12vw, 9rem);
+  }
+
+  .footer-container {
+    width: min(100% - 2.5rem, 1180px);
+    margin: 0 auto;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(3rem, 8vw, 6rem);
+    padding: clamp(3rem, 8vw, 5rem) 0;
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .footer-brand p {
+    color: rgba(243, 239, 230, 0.6);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #f3efe6;
+    margin: 0;
+  }
+
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(243, 239, 230, 0.7);
+    margin: 0;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-links a {
+    color: rgba(243, 239, 230, 0.55);
+    font-size: 0.9rem;
+    transition: color 180ms ease;
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: rgba(196, 166, 105, 0.8);
+  }
+
+  .footer-links li {
+    color: rgba(243, 239, 230, 0.55);
+    font-size: 0.9rem;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 0 3rem;
+    border-top: 1px solid rgba(243, 239, 230, 0.05);
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    color: rgba(243, 239, 230, 0.36);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-tagline {
+    color: rgba(243, 239, 230, 0.25) !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Responsive */
+  @media (max-width: 760px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+    }
+
+    .footer-bottom {
+      padding: 1.5rem 0 2rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    h4 {
+      font-size: 0.8rem;
+    }
+
+    .footer-links {
+      gap: 0.6rem;
+    }
+
+    .footer-links a,
+    .footer-links li {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-content {
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .footer-bottom {
+      gap: 0.25rem;
+      padding: 1rem 0 1.5rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.75rem;
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  href?: string;
+  className?: string;
+}
+
+const { href = "/", className = "" } = Astro.props;
+---
+
+<a href={href} class={`logo-link ${className}`}>
+  <img src="/logo.svg" alt="Entrynor" class="logo-image" />
+</a>
+
+<style>
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 3rem;
+    transition: opacity 200ms ease;
+  }
+
+  .logo-link:hover {
+    opacity: 0.9;
+  }
+
+  .logo-image {
+    height: 100%;
+    width: auto;
+    max-width: 180px;
+    display: block;
+    filter: brightness(1.1) contrast(1.05);
+  }
+</style>

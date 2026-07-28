@@ -1,0 +1,66 @@
+---
+interface Props {
+  lang?: "no" | "en";
+}
+
+---
+
+<section class="products-showcase">
+  <div class="showcase-image-full">
+    <img 
+      src="/images/rfid-cards.png" 
+      alt="Entrynor premium AURUM RFID cards and access solutions"
+      loading="lazy"
+    />
+  </div>
+</section>
+
+<style>
+  .products-showcase {
+    width: 100%;
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    border-top: 1px solid rgba(243, 239, 230, 0.09);
+  }
+
+  .showcase-image-full {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+    min-height: 500px;
+  }
+
+  .showcase-image-full img {
+    width: 100%;
+    max-width: 1400px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 
+      0 2px 8px rgba(196, 166, 105, 0.1),
+      0 8px 24px rgba(0, 0, 0, 0.3),
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 40px 100px rgba(0, 0, 0, 0.4);
+    object-fit: contain;
+    background: linear-gradient(135deg, rgba(20, 20, 18, 0.5) 0%, rgba(10, 10, 8, 0.8) 100%);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .showcase-image-full {
+      min-height: 400px;
+      padding: 0 clamp(1.25rem, 5vw, 2rem);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .products-showcase {
+      padding: 3rem 0;
+    }
+
+    .showcase-image-full {
+      min-height: 300px;
+      padding: 0 1.25rem;
+    }
+  }
+</style>

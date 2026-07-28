@@ -1,0 +1,163 @@
+export type Language = "no" | "en";
+
+export const SUPPORTED_LANGUAGES: Language[] = ["no", "en"];
+export const DEFAULT_LANGUAGE: Language = "no";
+
+// Contact defaults
+export const CONTACT_EMAIL = "info@entrynor.no";
+export const COMPANY_NAME = "Entrynor AS";
+export const COMPANY_ADDRESS = "Nye Vakås Vei 6, 1395 HVALSTAD";
+
+export const translations = {
+  no: {
+    // Navigation & Header
+    capabilities: "Muligheter",
+    standard: "Standard",
+    contact: "Kontakt",
+
+    // Hero Section
+    tagline: "Norsk leverandør · Globale standarder",
+    heroTitle: "Produksjon for merker som ikke kan kompromisse.",
+    heroDescription:
+      "Entrynor samarbeider med selektive bedrifter for å utvikle, sourcing og levere premium produkter med stille presisjon. Ingen katalognøkkel. Ingen priskrig. Bare nøye kontrollert forsyning for merker som verdsetter tillit.",
+    startConversation: "Start en privat samtale",
+    discreetByDesign: "Diskret etter design",
+
+    // Capabilities Section
+    whatWeDo: "Hva vi gjør",
+    exclusiveProduction: "Eksklusiv produksjon, håndtert fra ende til ende.",
+    capability1: "Privat merkevareproduksjon",
+    capability2: "Presis sourcing",
+    capability3: "Premium emballasje",
+    capability4: "Kontrollert kvalitetssikring",
+
+    // Statement Section
+    statement:
+      "Vi arbeider bak scenen for krevende merker der presentasjon, konsistens og pålitelighet betyr noe. Vår rolle er ikke å være høy. Det er å gjøre hvert levert produkt uunngåelig.",
+
+    // Trust Section
+    selective: "Selektiv",
+    selectiveDesc: "Vi velger samarbeid nøye for å beskytte kvalitet, fokus og langsiktig tillit.",
+    controlled: "Kontrollert",
+    controlledDesc: "Hver detalj styres med klare standarder, fra spesifikasjon til endelig levering.",
+    confidential: "Konfidensielt",
+    confidentialDesc: "Vi respekterer merkene vi betjener og holder søkelyset der det hører til.",
+
+    // Contact Section
+    privateInquiries: "Private henvendelser",
+    forBrands: "For merker som søker en seriøs produksjonspartner.",
+    tellUs:
+      "Fortell oss hva du bygger, standarden du forventer, og hvor pålitelighet betyr mest. Vi vil svare med diskresjon.",
+
+    // Contact Form
+    yourName: "Ditt navn",
+    fullName: "Fullt navn",
+    company: "Bedrift",
+    companyName: "Bedriftsnavn",
+    email: "E-post",
+    emailPlaceholder: "navn@bedrift.no",
+    phone: "Telefon",
+    phonePlaceholder: "+47 XX XX XX XX",
+    tellUsAboutProject: "Fortell oss om prosjektet ditt",
+    projectPlaceholder: "Hva bygger du? Hvilke standarder betyr mest?",
+    privacy: "Jeg godtar å holde kommunikasjon konfidensielt og respekterer personvern",
+    sendInquiry: "Send henvendelse",
+    formNotice: "Vi svarer vanligvis innen 24 timer.",
+    messageSent: "Melding sendt",
+
+    // Footer
+    footerDescription: "Premium produksjonspartner for verdens mest krevende merker.",
+    footerContact: "Kontakt",
+    footerNavigate: "Naviger",
+    footerLegal: "Juridisk",
+    privacyPolicy: "Personvernpolicy",
+    termsConditions: "Vilkår og betingelser",
+    allRightsReserved: "© {{year}} Entrynor. Alle rettigheter forbeholdt.",
+    exclusiveSupply: "Eksklusiv forsyning og produksjonssamarbeid.",
+
+    // Error/General
+    error: "Feil",
+    errorSendingMessage: "Det oppstod en feil ved sending av meldingen. Vennligst prøv igjen.",
+  },
+
+  en: {
+    // Navigation & Header
+    capabilities: "Capabilities",
+    standard: "Standard",
+    contact: "Contact",
+
+    // Hero Section
+    tagline: "Norwegian supplier · Global standards",
+    heroTitle: "Manufacturing for brands that cannot compromise.",
+    heroDescription:
+      "Entrynor partners with selective companies to develop, source, and deliver premium products with quiet precision. No catalogue noise. No price chasing. Only carefully controlled supply for brands that value confidence.",
+    startConversation: "Start a private conversation",
+    discreetByDesign: "Discreet by design",
+
+    // Capabilities Section
+    whatWeDo: "What we do",
+    exclusiveProduction: "Exclusive production, handled end to end.",
+    capability1: "Private label production",
+    capability2: "Precision sourcing",
+    capability3: "Premium packaging",
+    capability4: "Controlled quality assurance",
+
+    // Statement Section
+    statement:
+      "We work behind the scenes for demanding brands where presentation, consistency, and reliability matter. Our role is not to be loud. It is to make every delivered product feel inevitable.",
+
+    // Trust Section
+    selective: "Selective",
+    selectiveDesc: "We choose partnerships carefully to protect quality, focus, and long-term trust.",
+    controlled: "Controlled",
+    controlledDesc: "Every detail is managed with clear standards, from specification to final delivery.",
+    confidential: "Confidential",
+    confidentialDesc: "We respect the brands we serve and keep the spotlight where it belongs.",
+
+    // Contact Section
+    privateInquiries: "Private inquiries",
+    forBrands: "For brands seeking a serious manufacturing partner.",
+    tellUs: "Tell us what you are building, the standard you expect, and where reliability matters most. We will respond with discretion.",
+
+    // Contact Form
+    yourName: "Your Name",
+    fullName: "Full name",
+    company: "Company",
+    companyName: "Company name",
+    email: "Email",
+    emailPlaceholder: "name@company.com",
+    phone: "Phone",
+    phonePlaceholder: "+47 XX XX XX XX",
+    tellUsAboutProject: "Tell us about your project",
+    projectPlaceholder: "What are you building? What standards matter most?",
+    privacy: "I agree to keep communications confidential and respect privacy",
+    sendInquiry: "Send Inquiry",
+    formNotice: "We typically respond within 24 hours.",
+    messageSent: "Message Sent",
+
+    // Footer
+    footerDescription: "Premium manufacturing partner for the world's most discerning brands.",
+    footerContact: "Contact",
+    footerNavigate: "Navigate",
+    footerLegal: "Legal",
+    privacyPolicy: "Privacy Policy",
+    termsConditions: "Terms & Conditions",
+    allRightsReserved: "© {{year}} Entrynor. All rights reserved.",
+    exclusiveSupply: "Exclusive supply and manufacturing partnerships.",
+
+    // Error/General
+    error: "Error",
+    errorSendingMessage: "There was an error sending your message. Please try again.",
+  },
+};
+
+export function getTranslation(lang: Language, key: keyof typeof translations.no): string {
+  if (!SUPPORTED_LANGUAGES.includes(lang)) {
+    lang = DEFAULT_LANGUAGE;
+  }
+  return translations[lang][key as keyof typeof translations[typeof lang]];
+}
+
+export function isValidLanguage(lang: string | null | undefined): lang is Language {
+  return SUPPORTED_LANGUAGES.includes(lang as Language);
+}

@@ -1,0 +1,22 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .mf-text { font-family: Arial, sans-serif; fill: #001a4d; }
+      .mf-light { fill: #e8f4f8; }
+      .mf-badge { stroke: #0066cc; stroke-width: 2; }
+    </style>
+  </defs>
+  
+  <!-- Left badge -->
+  <rect x="10" y="20" width="120" height="160" rx="10" fill="#0088cc"/>
+  <circle cx="50" cy="80" r="35" fill="#00205b"/>
+  <circle cx="65" cy="65" r="15" fill="#00cc00"/>
+  <polygon points="25,120 25,50 55,85" fill="white"/>
+  
+  <!-- Right text area -->
+  <text x="150" y="50" font-size="24" font-weight="bold" class="mf-text">Miljøfyrtårn®</text>
+  
+  <!-- Badge box -->
+  <rect x="140" y="65" width="240" height="90" rx="6" class="mf-light mf-badge"/>
+  <text x="260" y="115" text-anchor="middle" font-size="16" font-weight="bold" class="mf-text">SERTIFISERT</text>
+</svg>
