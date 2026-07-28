@@ -71,7 +71,7 @@ export const translations = {
     footerLegal: "Juridisk",
     privacyPolicy: "Personvernpolicy",
     termsConditions: "Vilkår og betingelser",
-    allRightsReserved: "© {{year}} Entrynor. Alle rettigheter forbeholdt.",
+    allRightsReserved: "© {{year}} ENTRYNOR AS. Alle rettigheter forbeholdt.",
     exclusiveSupply: "Eksklusiv forsyning og produksjonssamarbeid.",
 
     // Error/General
@@ -141,7 +141,7 @@ export const translations = {
     footerLegal: "Legal",
     privacyPolicy: "Privacy Policy",
     termsConditions: "Terms & Conditions",
-    allRightsReserved: "© {{year}} Entrynor. All rights reserved.",
+    allRightsReserved: "© {{year}} ENTRYNOR AS. All rights reserved.",
     exclusiveSupply: "Exclusive supply and manufacturing partnerships.",
 
     // Error/General
