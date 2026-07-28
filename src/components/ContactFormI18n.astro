@@ -35,7 +35,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			id="phone"
 			name="phone"
 			placeholder={t("phonePlaceholder")}
+			required
+			aria-required="true"
 		/>
+		<span class="error-message" data-field="phone">{t("phone")} er påkrevd</span>
 	</div>
 
 	<div class="form-group">
