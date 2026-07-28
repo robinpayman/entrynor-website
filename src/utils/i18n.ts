@@ -50,7 +50,7 @@ export const translations = {
 
     // Contact Form
     yourName: "Navn",
-    fullName: "Fullt navn",
+    fullName: "Navn",
     company: "",
     companyName: "",
     email: "E-post",
@@ -58,7 +58,7 @@ export const translations = {
     phone: "Telefon",
     phonePlaceholder: "+47 XX XX XX XX",
     tellUsAboutProject: "Melding",
-    projectPlaceholder: "Beskriv ditt prosjekt",
+    projectPlaceholder: "Melding",
     privacy: "Jeg godtar å bli kontaktet, send henvendelse",
     sendInquiry: "",
     formNotice: "Vi svarer vanligvis innen 24 timer.",
@@ -120,7 +120,7 @@ export const translations = {
 
     // Contact Form
     yourName: "Name",
-    fullName: "Full name",
+    fullName: "Name",
     company: "",
     companyName: "",
     email: "Email",
@@ -128,7 +128,7 @@ export const translations = {
     phone: "Phone",
     phonePlaceholder: "+47 XX XX XX XX",
     tellUsAboutProject: "Message",
-    projectPlaceholder: "Describe your project",
+    projectPlaceholder: "Message",
     privacy: "I agree to be contacted, send inquiry",
     sendInquiry: "",
     formNotice: "We typically respond within 24 hours.",

@@ -11,6 +11,9 @@ const { lang } = Astro.props;
 const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
 ---
 
+<!-- Hidden company field for form submission -->
+<input type="hidden" id="company" name="company" />
+
 <form class="contact-form" id="contactForm" method="POST" action={`/${lang}/api/contact`} data-email={CONTACT_EMAIL} novalidate>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
@@ -22,30 +25,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			required
 			aria-required="true"
 		/>
-	</div>
-
-	<div class="form-group" style="display: none;">
-		<label for="company">{t("company")}</label>
-		<input
-			type="text"
-			id="company"
-			name="company"
-			placeholder={t("companyName")}
-			required
-			aria-required="true"
-		/>
-	</div>
-
-	<div class="form-group">
-		<label for="email">{t("email")}</label>
-		<input
-			type="email"
-			id="email"
-			name="email"
-			placeholder={t("emailPlaceholder")}
-			required
-			aria-required="true"
-		/>
+		<span class="error-message" data-field="name">{t("yourName")} er påkrevd</span>
 	</div>
 
 	<div class="form-group">
@@ -59,6 +39,19 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 	</div>
 
 	<div class="form-group">
+		<label for="email">{t("email")}</label>
+		<input
+			type="email"
+			id="email"
+			name="email"
+			placeholder={t("emailPlaceholder")}
+			required
+			aria-required="true"
+		/>
+		<span class="error-message" data-field="email">{t("email")} er påkrevd</span>
+	</div>
+
+	<div class="form-group">
 		<label for="message">{t("tellUsAboutProject")}</label>
 		<textarea
 			id="message"
@@ -68,6 +61,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				required
 			aria-required="true"
 		></textarea>
+		<span class="error-message" data-field="message">{t("tellUsAboutProject")} er påkrevd</span>
 	</div>
 
 	<button type="submit" class="submit-button">{t("privacy")}</button>
@@ -77,9 +71,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 <style>
 	.contact-form {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		gap: 1.5rem;
 		width: 100%;
+		align-items: end;
 	}
 
 
@@ -207,6 +202,18 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		box-shadow: 0 0 0 3px rgba(196, 166, 105, 0.15);
 	}
 
+	.form-group.has-error .error-message {
+		display: block;
+		font-size: 0.75rem;
+		color: rgba(196, 166, 105, 0.7);
+		margin-top: 0.3rem;
+		letter-spacing: 0.01em;
+	}
+
+	.error-message {
+		display: none;
+	}
+
 	/* Responsive */
 	@media (max-width: 900px) {
 		.contact-form {
@@ -246,10 +253,12 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			}, true);
 			input.addEventListener('input', () => {
 				input.classList.remove('has-error');
+				input.parentElement?.classList.remove('has-error');
 			});
 
 			input.addEventListener('focus', () => {
 				input.classList.remove('has-error');
+				input.parentElement?.classList.remove('has-error');
 			});
 		});
 
@@ -261,6 +270,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				if (!input.checkValidity()) {
 					isValid = false;
 					input.classList.add('has-error');
+					input.parentElement?.classList.add('has-error');
 				}
 			});
 			if (!isValid) {
@@ -288,7 +298,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 					// Reset form
 					form.reset();
-					inputs.forEach(input => input.classList.remove('has-error'));
+					inputs.forEach(input => {
+						input.classList.remove('has-error');
+						input.parentElement?.classList.remove('has-error');
+					});
 
 					// Reset button after 3 seconds
 					setTimeout(() => {
