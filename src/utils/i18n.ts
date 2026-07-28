@@ -37,11 +37,11 @@ export const translations = {
 
     // Trust Section
     selective: "Ta kontakt",
-    selectiveDesc: "Skriv til info@entrynor.no. Vi svarer innen 24 timer og diskuterer dine behov i detalj.",
-    controlled: "Ekslusiv design & funksjonalitet",
-    controlledDesc: "Vi håndterer hele prosessen fra sikkerhet til design. Du slipper bekymringer - vi leverer resultat.",
-    confidential: "Global levering",
-    confidentialDesc: "Vi leverer til ambisiøse merker verden rundt. Rask, sikker og diskret logistikk.",
+    selectiveDesc: "Send mail til info@entrynor.no. Vi svarer deg innen 24 timer.",
+    controlled: "Funksjonalitet",
+    controlledDesc: "Gratis design. Vi blir enige om design. Har du ikke, hjelper vi deg med det.",
+    confidential: "Levert på døren",
+    confidentialDesc: "Produksjon. Vi sender dine produkter til deg – levert på døren hvor du vil.",
 
     // Contact Section
     privateInquiries: "Kontakt",
@@ -107,11 +107,11 @@ export const translations = {
 
     // Trust Section
     selective: "Get in Touch",
-    selectiveDesc: "Email info@entrynor.no. We respond within 24 hours and discuss your needs in detail.",
-    controlled: "Exclusive Design & Function",
-    controlledDesc: "We handle the entire process from security to design. You rest easy - we deliver results.",
-    confidential: "Global Delivery",
-    confidentialDesc: "We deliver to ambitious brands worldwide. Fast, secure, and discreet logistics.",
+    selectiveDesc: "Send email to info@entrynor.no. We respond within 24 hours.",
+    controlled: "Functionality",
+    controlledDesc: "Free design. We agree on the design. If you don't have one, we help you with it.",
+    confidential: "Delivered to Your Door",
+    confidentialDesc: "Production. We send your products to you – delivered to your door where you want.",
 
     // Contact Section
     privateInquiries: "Contact",
