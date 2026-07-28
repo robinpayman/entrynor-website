@@ -89,17 +89,14 @@ const capabilities = [
 
       <section class="section proof">
         <div>
-          <span>01</span>
           <h3>{t("selective")}</h3>
           <p>{t("selectiveDesc")}</p>
         </div>
         <div>
-          <span>02</span>
           <h3>{t("controlled")}</h3>
           <p>{t("controlledDesc")}</p>
         </div>
         <div>
-          <span>03</span>
           <h3>{t("confidential")}</h3>
           <p>{t("confidentialDesc")}</p>
         </div>
@@ -229,7 +226,7 @@ const capabilities = [
     display: grid;
     min-height: auto;
     align-content: start;
-    padding: 10rem 0 4rem;
+    padding: 10rem 0 5rem;
   }
 
   .eyebrow {
@@ -323,7 +320,7 @@ const capabilities = [
   }
 
   .section {
-    padding: 4rem 0 clamp(5rem, 12vw, 9rem);
+    padding: 5rem 0 clamp(5rem, 12vw, 9rem);
     border-top: 1px solid rgba(243, 239, 230, 0.09);
   }
 
@@ -374,15 +371,6 @@ const capabilities = [
     padding: clamp(3rem, 6vw, 5rem);
     border-left: 4px solid rgba(196, 166, 105, 0.85);
     background: linear-gradient(to right, rgba(196, 166, 105, 0.08), transparent);
-  }
-
-  .proof span {
-    display: block;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-    color: rgba(196, 166, 105, 1);
-    font-size: clamp(1rem, 2.2vw, 1.4rem);
-    font-weight: 500;
-    letter-spacing: 0.12em;
   }
 
   .proof h3 {
