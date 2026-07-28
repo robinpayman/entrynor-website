@@ -1,6 +1,7 @@
 ---
 import type { Language } from "../utils/i18n";
 import { getTranslation, COMPANY_NAME } from "../utils/i18n";
+import CertificationSection from "./CertificationSection.astro";
 
 interface Props {
   lang: Language;
@@ -56,6 +57,11 @@ const year = new Date().getFullYear();
           <li><a href={`/${lang}/terms`}>{t("termsConditions")}</a></li>
         </ul>
       </div>
+    </div>
+
+    <!-- Certification -->
+    <div class="footer-certification">
+      <CertificationSection {lang} />
     </div>
 
     <!-- Bottom Bar -->
@@ -160,6 +166,11 @@ const year = new Date().getFullYear();
   .footer-tagline {
     color: rgba(243, 239, 230, 0.25) !important;
     font-size: 0.8rem !important;
+  }
+
+  .footer-certification {
+    padding: 2rem 0;
+    border-top: 1px solid rgba(243, 239, 230, 0.05);
   }
 
   /* Responsive */

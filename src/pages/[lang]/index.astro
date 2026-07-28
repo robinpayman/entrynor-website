@@ -4,7 +4,6 @@ import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, getTranslation, isValidLanguage,
 import ContactFormI18n from "../../components/ContactFormI18n.astro";
 import FooterI18n from "../../components/FooterI18n.astro";
 import Logo from "../../components/Logo.astro";
-import CertificationSection from "../../components/CertificationSection.astro";
 import ProductShowcase from "../../components/ProductShowcase.astro";
 
 export const prerender = true;
@@ -101,8 +100,6 @@ const capabilities = [
           <p>{t("confidentialDesc")}</p>
         </div>
       </section>
-
-      <CertificationSection lang={lang} />
 
       <section id="contact" class="section contact">
         <div class="contact-wrapper">
