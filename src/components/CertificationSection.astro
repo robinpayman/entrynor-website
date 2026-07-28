@@ -22,10 +22,10 @@ const t = titles[lang] || titles.no;
 <section class="certification-section">
   <div class="certification-container">
     <div class="certification-badge">
-      <img src="/images/miljoefyrtaarn.png" alt="Miljøfyrtårn - Sertifisert virksomhet" />
+      <img src="/images/miljoefyrtaarn-new.png" alt="Miljøfyrtårn - Sertifisert virksomhet" />
     </div>
     <div class="certification-content">
-      <h3>{t.certification}</h3>
+      <p class="certification-title">{t.certification}</p>
     </div>
   </div>
 </section>
@@ -64,14 +64,14 @@ const t = titles[lang] || titles.no;
     align-items: center;
   }
 
-  .certification-content h3 {
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
-    font-family: Georgia, "Times New Roman", serif;
-    font-weight: 300;
-    color: rgba(243, 239, 230, 0.9);
+  .certification-title {
+    font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+    font-weight: 600;
+    color: #c4a669;
     margin: 0;
-    letter-spacing: -0.025em;
+    letter-spacing: 0.08em;
     text-align: center;
+    text-transform: uppercase;
   }
 
   /* Responsive */
