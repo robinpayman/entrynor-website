@@ -12,31 +12,33 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 ---
 
 <form class="contact-form" id="contactForm" method="POST" action={`/${lang}/api/contact`} data-email={CONTACT_EMAIL}>
-	<div class="form-group">
-		<label for="name">{t("yourName")}</label>
-		<input
-			type="text"
-			id="name"
-			name="name"
-			placeholder={t("fullName")}
-			required
-			aria-required="true"
-		/>
+	<div class="form-section">
+		<div class="form-group">
+			<label for="name">{t("yourName")}</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				placeholder={t("fullName")}
+				required
+				aria-required="true"
+			/>
+		</div>
+
+		<div class="form-group">
+			<label for="company">{t("company")}</label>
+			<input
+				type="text"
+				id="company"
+				name="company"
+				placeholder={t("companyName")}
+				required
+				aria-required="true"
+			/>
+		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="company">{t("company")}</label>
-		<input
-			type="text"
-			id="company"
-			name="company"
-			placeholder={t("companyName")}
-			required
-			aria-required="true"
-		/>
-	</div>
-
-	<div class="form-row">
+	<div class="form-section">
 		<div class="form-group">
 			<label for="email">{t("email")}</label>
 			<input
@@ -92,8 +94,13 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 <style>
 	.contact-form {
 		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
 		gap: 1.5rem;
-		max-width: 600px;
+		width: 100%;
+	}
+
+	.form-section {
+		display: contents;
 	}
 
 	.form-group {
@@ -165,10 +172,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		cursor: pointer;
 	}
 
-	.form-row {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
+	.form-group:nth-child(n+3),
+	.submit-button,
+	.form-notice {
+		grid-column: 1 / -1;
 	}
 
 	.submit-button {

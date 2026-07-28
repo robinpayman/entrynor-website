@@ -3,31 +3,33 @@
 ---
 
 <form class="contact-form" id="contactForm" method="POST" action="/api/contact">
-	<div class="form-group">
-		<label for="name">Your Name</label>
-		<input
-			type="text"
-			id="name"
-			name="name"
-			placeholder="Full name"
-			required
-			aria-required="true"
-		/>
+	<div class="form-section">
+		<div class="form-group">
+			<label for="name">Your Name</label>
+			<input
+				type="text"
+				id="name"
+				name="name"
+				placeholder="Full name"
+				required
+				aria-required="true"
+			/>
+		</div>
+
+		<div class="form-group">
+			<label for="company">Company</label>
+			<input
+				type="text"
+				id="company"
+				name="company"
+				placeholder="Company name"
+				required
+				aria-required="true"
+			/>
+		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="company">Company</label>
-		<input
-			type="text"
-			id="company"
-			name="company"
-			placeholder="Company name"
-			required
-			aria-required="true"
-		/>
-	</div>
-
-	<div class="form-row">
+	<div class="form-section">
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input
@@ -51,19 +53,19 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group full-width">
 		<label for="message">Tell us about your project</label>
 		<textarea
 			id="message"
 			name="message"
 			placeholder="What are you building? What standards matter most?"
-			rows="6"
+			rows="4"
 			required
 			aria-required="true"
 		></textarea>
 	</div>
 
-	<div class="form-group checkbox">
+	<div class="form-group checkbox full-width">
 		<input
 			type="checkbox"
 			id="privacy"
@@ -83,8 +85,13 @@
 <style>
 	.contact-form {
 		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
 		gap: 1.5rem;
-		max-width: 600px;
+		width: 100%;
+	}
+
+	.form-section {
+		display: contents;
 	}
 
 	.form-group {
@@ -143,7 +150,7 @@
 
 	textarea {
 		resize: vertical;
-		min-height: 120px;
+		min-height: 100px;
 		font-family: inherit;
 		line-height: 1.6;
 	}
@@ -156,10 +163,9 @@
 		cursor: pointer;
 	}
 
-	.form-row {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
+
+	.form-group.full-width {
+		grid-column: 1 / -1;
 	}
 
 	.submit-button {
