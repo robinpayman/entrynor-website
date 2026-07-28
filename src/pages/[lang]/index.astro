@@ -360,9 +360,27 @@ const capabilities = [
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(3rem, 6vw, 5rem);
+    position: relative;
+  }
+
+  .proof::before {
+    content: '';
+    position: absolute;
+    right: -10%;
+    bottom: -10%;
+    width: 500px;
+    height: 500px;
+    background-image: url('/images/wooden-cards.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
   }
 
   .proof div {
+    position: relative;
+    z-index: 1;
     padding: 0;
   }
 
