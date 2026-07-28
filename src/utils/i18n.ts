@@ -36,12 +36,12 @@ export const translations = {
       "Vi arbeider bak scenen for krevende merker der presentasjon, konsistens og pålitelighet betyr noe. Vår rolle er ikke å være høy. Det er å gjøre hvert levert produkt uunngåelig.",
 
     // Trust Section
-    selective: "Selektiv",
-    selectiveDesc: "Vi velger samarbeid nøye for å beskytte kvalitet, fokus og langsiktig tillit.",
-    controlled: "Kontrollert",
-    controlledDesc: "Hver detalj styres med klare standarder, fra spesifikasjon til endelig levering.",
-    confidential: "Konfidensielt",
-    confidentialDesc: "Vi respekterer merkene vi betjener og holder søkelyset der det hører til.",
+    selective: "Ta kontakt",
+    selectiveDesc: "Skriv til info@entrynor.no. Vi svarer innen 24 timer og diskuterer dine behov i detalj.",
+    controlled: "Ekslusiv design & funksjonalitet",
+    controlledDesc: "Vi håndterer hele prosessen fra sikkerhet til design. Du slipper bekymringer - vi leverer resultat.",
+    confidential: "Global levering",
+    confidentialDesc: "Vi leverer til ambisiøse merker verden rundt. Rask, sikker og diskret logistikk.",
 
     // Contact Section
     privateInquiries: "Kontakt",
@@ -106,12 +106,12 @@ export const translations = {
       "We work behind the scenes for demanding brands where presentation, consistency, and reliability matter. Our role is not to be loud. It is to make every delivered product feel inevitable.",
 
     // Trust Section
-    selective: "Selective",
-    selectiveDesc: "We choose partnerships carefully to protect quality, focus, and long-term trust.",
-    controlled: "Controlled",
-    controlledDesc: "Every detail is managed with clear standards, from specification to final delivery.",
-    confidential: "Confidential",
-    confidentialDesc: "We respect the brands we serve and keep the spotlight where it belongs.",
+    selective: "Get in Touch",
+    selectiveDesc: "Email info@entrynor.no. We respond within 24 hours and discuss your needs in detail.",
+    controlled: "Exclusive Design & Function",
+    controlledDesc: "We handle the entire process from security to design. You rest easy - we deliver results.",
+    confidential: "Global Delivery",
+    confidentialDesc: "We deliver to ambitious brands worldwide. Fast, secure, and discreet logistics.",
 
     // Contact Section
     privateInquiries: "Contact",
