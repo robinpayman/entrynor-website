@@ -16,7 +16,7 @@ export const translations = {
     contact: "Kontakt",
 
     // Hero Section
-    tagline: "Norsk leverandør · Globale standarder",
+    tagline: "Norsk leverandør - Globale kunder",
     heroTitle: "Produksjon for merker som ikke kan kompromisse.",
     heroDescription:
       "Entrynor samarbeider med selektive bedrifter for å utvikle, sourcing og levere premium produkter med stille presisjon. Ingen katalognøkkel. Ingen priskrig. Bare nøye kontrollert forsyning for merker som verdsetter tillit.",
@@ -86,7 +86,7 @@ export const translations = {
     contact: "Contact",
 
     // Hero Section
-    tagline: "Norwegian supplier · Global standards",
+    tagline: "Norwegian supplier - Global customers",
     heroTitle: "Manufacturing for brands that cannot compromise.",
     heroDescription:
       "Entrynor partners with selective companies to develop, source, and deliver premium products with quiet precision. No catalogue noise. No price chasing. Only carefully controlled supply for brands that value confidence.",
