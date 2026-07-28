@@ -92,6 +92,9 @@ const capabilities = [
       </section>
 
       <section id="contact" class="section contact">
+        <div class="contact-header">
+          <h2>{lang === "no" ? "KONTAKT" : "CONTACT"}</h2>
+        </div>
         <ContactFormI18n lang={lang} />
       </section>
     </main>
@@ -428,10 +431,24 @@ const capabilities = [
     width: 100% !important;
     max-width: none !important;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 4rem) 0;
     scroll-margin-top: 6rem;
+  }
+
+  .contact-header {
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .contact-header h2 {
+    margin: 0;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(243, 239, 230, 0.8);
   }
 
   .contact :global(.contact-form) {
