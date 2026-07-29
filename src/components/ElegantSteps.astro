@@ -5,27 +5,7 @@ interface Props {
 
 const { lang = "no" } = Astro.props;
 
-const steps = lang === "no" 
-  ? [
-      {
-        title: "Ekslusiv design & funksjonalitet",
-        description: "Vi eier prosessen fra sikkerhet til design - du lener deg tilbake",
-      },
-      {
-        title: "Levering",
-        description: "Vi leverer til våre kunder globalt",
-      },
-    ]
-  : [
-      {
-        title: "Exclusive Design & Functionality",
-        description: "We own the process from security to design - you lean back",
-      },
-      {
-        title: "Delivery",
-        description: "We deliver to our customers globally",
-      },
-    ];
+const steps = lang === "no" ? [] : [];
 ---
 
 <div class="steps-container">
