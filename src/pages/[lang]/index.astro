@@ -91,6 +91,11 @@ const capabilities = [
       </section>
 
       <section class="section steps-section">
+        <p class="steps-description">
+          {lang === "no"
+            ? "Vi eier prosessen, helt fra sikkerhet til design og leverer til våre kunder globalt"
+            : "We own the process, from security to design and deliver to our customers globally"}
+        </p>
         <ElegantSteps lang={lang} />
       </section>
 
@@ -347,6 +352,17 @@ const capabilities = [
     padding-bottom: clamp(2rem, 5vw, 4rem);
   }
 
+  .steps-description {
+    text-align: center;
+    margin-bottom: clamp(3rem, 8vw, 5rem);
+    color: #c4a669;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 300;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
   .split {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -449,8 +465,10 @@ const capabilities = [
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 4rem) 0;
+    padding: clamp(4rem, 10vw, 8rem) clamp(1.25rem, 4vw, 4rem) clamp(4rem, 10vw, 8rem);
     scroll-margin-top: 6rem;
+    background-color: rgba(196, 166, 105, 0.05);
+    margin-bottom: 0;
   }
 
   .contact-header {
