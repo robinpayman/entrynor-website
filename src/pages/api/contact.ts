@@ -5,6 +5,7 @@ interface ContactFormData {
   phone: string;
   email: string;
   message: string;
+  recaptchaToken: string;
 }
 
 // Get Microsoft Graph access token
@@ -39,6 +40,48 @@ async function getGraphToken(): Promise<string> {
 
   const data = (await response.json()) as { access_token: string };
   return data.access_token;
+}
+
+// Verify reCAPTCHA token
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = import.meta.env.RECAPTCHA_SECRET_KEY;
+
+  if (!secretKey) {
+    console.warn('RECAPTCHA_SECRET_KEY not configured, skipping verification');
+    return true; // Allow if not configured
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: secretKey,
+        response: token,
+      }).toString(),
+    });
+
+    if (!response.ok) {
+      throw new Error(`reCAPTCHA verification failed: ${response.statusText}`);
+    }
+
+    const data = (await response.json()) as {
+      success: boolean;
+      score: number;
+      action: string;
+      challenge_ts: string;
+      hostname: string;
+    };
+
+    // For v3, check score (0.0 - 1.0, where 1.0 is very likely legitimate)
+    // We'll accept scores >= 0.5 as legitimate
+    return data.success && data.score >= 0.5;
+  } catch (error) {
+    console.error('reCAPTCHA verification error:', error);
+    return false;
+  }
 }
 
 // Send email via Microsoft Graph
@@ -115,8 +158,14 @@ export const POST: APIRoute = async ({ request }) => {
     const data = (await request.json()) as ContactFormData;
 
     // Validate required fields
-    if (!data.name || !data.phone || !data.email || !data.message) {
+    if (!data.name || !data.phone || !data.email || !data.message || !data.recaptchaToken) {
       return new Response('Missing required fields', { status: 400 });
+    }
+
+    // Verify reCAPTCHA
+    const isHuman = await verifyRecaptcha(data.recaptchaToken);
+    if (!isHuman) {
+      return new Response('reCAPTCHA verification failed', { status: 403 });
     }
 
     // Validate email format
