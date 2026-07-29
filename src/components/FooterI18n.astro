@@ -47,7 +47,6 @@ const year = new Date().getFullYear();
 
     <!-- Bottom Bar -->
     <div class="footer-bottom">
-      <p>{t("allRightsReserved").replace("{{year}}", year.toString())}</p>
     </div>
   </div>
 </footer>
@@ -58,18 +57,31 @@ const year = new Date().getFullYear();
     <button class="modal-close" id="modalClose">×</button>
     <div class="modal-body">
       <h3>ENTRYNOR AS</h3>
-      <p>Org nr 830 589 902<br />Etablert 2014</p>
-      <p>Hvalstad i Asker</p>
+      <p>Org nr 830 589 902<br />Etablert 2014<br />Nye Vakås Vei 6, 1395 HVALSTAD</p>
       
       {lang === "no" ? (
         <>
           <h4>Personvern og GDPR</h4>
-          <p>Vi lagrer kundedata i vårt ERP-system, hos våre leverandører og i Microsoft 365. Vi deler ikke data med tredjeparter uten samtykke. Du har rett til å bli glemt (GDPR artikel 17).</p>
+          <h5>Datalagring</h5>
+          <p>Vi lagrer kundedata i vårt ERP-system, hos våre fraktpartnere og i Microsoft 365. All data behandles i henhold til GDPR.</p>
+          
+          <h5>Datadeling</h5>
+          <p>Vi deler ikke persondata med tredjeparter uten eksplisitt samtykke fra deg. Data deles kun internt innenfor organisasjonen når nødvendig for ordrebehandling og levering.</p>
+          
+          <h5>Dine rettigheter</h5>
+          <p>Du har rett til å bli glemt og få alle dine persondata slettet fra våre systemer (GDPR artikkel 17). Kontakt oss på info@entrynor.no for å utøve denne retten.</p>
         </>
       ) : (
         <>
           <h4>Privacy and GDPR</h4>
-          <p>We store customer data in our ERP system, with our suppliers, and in Microsoft 365. We do not share data with third parties without consent. You have the right to be forgotten (GDPR article 17).</p>
+          <h5>Data Storage</h5>
+          <p>We store customer data in our ERP system, with our shipping partners, and in Microsoft 365. All data is processed in accordance with GDPR.</p>
+          
+          <h5>Data Sharing</h5>
+          <p>We do not share personal data with third parties without your explicit consent. Data is shared only internally within the organization when necessary for order processing and delivery.</p>
+          
+          <h5>Your Rights</h5>
+          <p>You have the right to be forgotten and have all your personal data deleted from our systems (GDPR article 17). Contact us at info@entrynor.no to exercise this right.</p>
         </>
       )}
     </div>
@@ -332,6 +344,15 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     color: rgba(243, 239, 230, 0.8);
     margin: 1.5rem 0 0.75rem 0;
+  }
+
+  .modal-body h5 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #c4a669;
+    margin: 1rem 0 0.5rem 0;
   }
 
   .modal-body p {

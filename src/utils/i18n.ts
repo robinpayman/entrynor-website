@@ -17,9 +17,10 @@ export const translations = {
 
     // Hero Section
     tagline: "Norsk leverandør - Globale kunder",
-    heroTitle: "",
+    productsDescription: "Våre produkter dekker hoteller, spa, badeland, bedrifter, treningssentere, ladestasjoner, bibliotek, lager og mye mer",
+    heroTitle: "Eksklusiv design & produksjon",
     heroDescription:
-      "",
+      "Vi arbeider bak scenen for krevende merker der presentasjon, konsistens og pålitelighet betyr noe.",
     startConversation: "Kontakt",
     discreetByDesign: "",
 
@@ -87,9 +88,10 @@ export const translations = {
 
     // Hero Section
     tagline: "Norwegian supplier - Global customers",
-    heroTitle: "",
+    productsDescription: "Our products cover hotels, spas, water parks, businesses, fitness centers, charging stations, libraries, warehouses and much more",
+    heroTitle: "Exclusive design & manufacturing",
     heroDescription:
-      "",
+      "We work behind the scenes for demanding brands where presentation, consistency, and reliability matter.",
     startConversation: "Contact",
     discreetByDesign: "",
 
