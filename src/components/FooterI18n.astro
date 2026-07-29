@@ -26,9 +26,7 @@ const year = new Date().getFullYear();
       <div class="footer-section footer-center">
         <h3>{COMPANY_NAME}</h3>
         <p>{address}</p>
-        <button class="personvern-btn" id="personvernBtn">
-          {lang === "no" ? "Personvern" : "Privacy"}
-        </button>
+        <button class="privacy-link-footer" id="privacyBtnFooter">{lang === "no" ? "Personvern" : "Privacy"}</button>
       </div>
 
       <!-- Certifications -->
@@ -47,67 +45,67 @@ const year = new Date().getFullYear();
     <!-- Bottom Bar -->
     <div class="footer-bottom">
     </div>
-  </div>
-</footer>
 
-<!-- Privacy Modal -->
-<div class="privacy-modal" id="privacyModal">
-  <div class="modal-content">
-    <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-body">
-      <h3>ENTRYNOR AS</h3>
-      <p>Org nr 830 589 902<br />Etablert 2014<br />Nye Vakås Vei 6, 1395 HVALSTAD</p>
-      
-      {lang === "no" ? (
-        <>
-          <h4>Personvern og GDPR</h4>
-          <h5>Datalagring</h5>
-          <p>Vi lagrer kundedata i vårt ERP-system, hos våre fraktpartnere og i Microsoft 365. All data behandles i henhold til GDPR.</p>
-          
-          <h5>Datadeling</h5>
-          <p>Vi deler ikke persondata med tredjeparter uten eksplisitt samtykke fra deg. Data deles kun internt innenfor organisasjonen når nødvendig for ordrebehandling og levering.</p>
-          
-          <h5>Dine rettigheter</h5>
-          <p>Du har rett til å bli glemt og få alle dine persondata slettet fra våre systemer (GDPR artikkel 17). Kontakt oss på info@entrynor.no for å utøve denne retten.</p>
-        </>
-      ) : (
-        <>
-          <h4>Privacy and GDPR</h4>
-          <h5>Data Storage</h5>
-          <p>We store customer data in our ERP system, with our shipping partners, and in Microsoft 365. All data is processed in accordance with GDPR.</p>
-          
-          <h5>Data Sharing</h5>
-          <p>We do not share personal data with third parties without your explicit consent. Data is shared only internally within the organization when necessary for order processing and delivery.</p>
-          
-          <h5>Your Rights</h5>
-          <p>You have the right to be forgotten and have all your personal data deleted from our systems (GDPR article 17). Contact us at info@entrynor.no to exercise this right.</p>
-        </>
-      )}
+    <!-- Privacy Modal -->
+    <div class="privacy-modal" id="privacyModal">
+      <div class="privacy-modal-content">
+        <button class="privacy-close" id="closePrivacy">&times;</button>
+        <h2>{lang === "no" ? "Personvern" : "Privacy"}</h2>
+        <div class="privacy-text">
+          {lang === "no" ? (
+            <>
+              <p style="color: rgba(243, 239, 230, 0.7); font-size: 0.9rem; margin-bottom: 1.5rem;"><strong>ENTRYNOR AS</strong><br/>Org nr 830 589 902<br/>Etablert 2014</p>
+              
+              <p><strong>Behandling av personopplysninger</strong></p>
+              <p>Vi behandler og beskytter dine personopplysninger i samsvar med GDPR og norsk personopplysningsloven.</p>
+              
+              <p><strong>Lagring av data</strong></p>
+              <p>Dine kundeoplysninger lagres kun i følgende systemer:</p>
+              <ul>
+                <li>Vårt ERP-system (Enterprise Resource Planning)</li>
+                <li>Våre fraktpartnere for ordre og leveringer</li>
+                <li>Microsoft 365 for kommunikasjon (beskyttet med sikkerhetstiltak for din sikkerhet)</li>
+              </ul>
+              
+              <p><strong>Vi deler ikke dine data</strong></p>
+              <p>Vi deler aldri dine personopplysninger med tredjepart uten ditt samtykke, unntatt hvor det er lovpålagt.</p>
+              
+              <p><strong>Retten til å bli glemt</strong></p>
+              <p>Du har rett til å bli slettet fra våre systemer i henhold til GDPR artikkel 17. Send en forespørsel via kontaktskjemaet vårt, og vi vil slette alle spor av dine personopplysninger innenfor de lovmessige forpliktelsene etter GDPR. Noen data kan bli beholdt hvis de er påkrevd av norsk lov (for eksempel regnskapsoppgjørelser).</p>
+              
+              <p><strong>Kontakt oss</strong></p>
+              <p>Har du spørsmål om personvern eller ønsker å angi en slettingsforespørsel, kontakt oss via kontaktskjemaet.</p>
+            </>
+          ) : (
+            <>
+              <p style="color: rgba(243, 239, 230, 0.7); font-size: 0.9rem; margin-bottom: 1.5rem;"><strong>ENTRYNOR AS</strong><br/>Org nr 830 589 902<br/>Established 2014</p>
+              
+              <p><strong>Processing of Personal Information</strong></p>
+              <p>We process and protect your personal information in accordance with GDPR and Norwegian data protection legislation.</p>
+              
+              <p><strong>Data Storage</strong></p>
+              <p>Your customer information is stored only in the following systems:</p>
+              <ul>
+                <li>Our ERP system (Enterprise Resource Planning)</li>
+                <li>Our shipping partners for orders and deliveries</li>
+                <li>Microsoft 365 for communication (protected with security measures for your safety)</li>
+              </ul>
+              
+              <p><strong>We Do Not Share Your Data</strong></p>
+              <p>We never share your personal information with third parties without your consent, except where required by law.</p>
+              
+              <p><strong>Right to Be Forgotten</strong></p>
+              <p>You have the right to be deleted from our systems under GDPR Article 17. Submit a request via our contact form, and we will delete all traces of your personal information within the legal obligations of GDPR. Some data may be retained if required by Norwegian law (for example, accounting records).</p>
+              
+              <p><strong>Contact Us</strong></p>
+              <p>If you have any questions about privacy or wish to submit a deletion request, contact us via our contact form.</p>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<script>
-  const btn = document.getElementById('personvernBtn');
-  const modal = document.getElementById('privacyModal');
-  const closeBtn = document.getElementById('modalClose');
-
-  if (btn && modal && closeBtn) {
-    btn.addEventListener('click', () => {
-      modal.classList.add('show');
-    });
-
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('show');
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('show');
-      }
-    });
-  }
-</script>
+</footer>
 
 <style>
   .site-footer {
@@ -144,7 +142,7 @@ const year = new Date().getFullYear();
     margin: 0;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 400;
   }
 
   h3 {
@@ -227,7 +225,7 @@ const year = new Date().getFullYear();
     width: clamp(84px, 14vw, 140px) !important;
   }
 
-  .personvern-btn {
+  .privacy-link-footer {
     background-color: #c4a669;
     color: #080807;
     border: none;
@@ -242,7 +240,7 @@ const year = new Date().getFullYear();
     transition: background-color 180ms ease, transform 180ms ease;
   }
 
-  .personvern-btn:hover {
+  .privacy-link-footer:hover {
     background-color: #d4b679;
     transform: translateY(-1px);
   }
@@ -280,86 +278,79 @@ const year = new Date().getFullYear();
   .privacy-modal {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+  }
+
+  .privacy-modal.active {
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
   }
 
-  .privacy-modal.show {
-    display: flex;
-  }
-
-  .modal-content {
+  .privacy-modal-content {
     background-color: #080807;
-    border: 1px solid rgba(196, 166, 105, 0.3);
     padding: 2rem;
-    max-width: 600px;
+    border: 1px solid rgba(196, 166, 105, 0.3);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 700px;
     max-height: 80vh;
     overflow-y: auto;
     position: relative;
-    border-radius: 4px;
   }
 
-  .modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+  .privacy-modal-content h2 {
+    margin-top: 0;
+    color: #f3efe6;
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .privacy-modal-content p {
+    color: rgba(243, 239, 230, 0.7);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .privacy-modal-content ul {
+    color: rgba(243, 239, 230, 0.7);
+    margin-left: 1.5rem;
+    line-height: 1.8;
+    font-size: 0.9rem;
+  }
+
+  .privacy-modal-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy-modal-content strong {
+    color: rgba(243, 239, 230, 0.9);
+    font-weight: 600;
+  }
+
+  .privacy-close {
+    color: rgba(243, 239, 230, 0.6);
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
     background: none;
     border: none;
-    color: rgba(243, 239, 230, 0.7);
-    font-size: 1.8rem;
-    cursor: pointer;
     padding: 0;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    line-height: 1;
     transition: color 180ms ease;
   }
 
-  .modal-close:hover {
+  .privacy-close:hover {
     color: #f3efe6;
-  }
-
-  .modal-body h3 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #c4a669;
-    margin: 0 0 0.5rem 0;
-  }
-
-  .modal-body h4 {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(243, 239, 230, 0.8);
-    margin: 1.5rem 0 0.75rem 0;
-  }
-
-  .modal-body h5 {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #c4a669;
-    margin: 1rem 0 0.5rem 0;
-  }
-
-  .modal-body p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: rgba(243, 239, 230, 0.7);
-    margin: 0 0 1rem 0;
   }
 
   /* Responsive */
@@ -406,5 +397,32 @@ const year = new Date().getFullYear();
     .footer-bottom p {
       font-size: 0.75rem;
     }
+
+    .privacy-modal-content {
+      width: 95%;
+      padding: 1.5rem;
+    }
   }
 </style>
+
+<script>
+  const privacyBtn = document.getElementById('privacyBtnFooter');
+  const privacyModal = document.getElementById('privacyModal');
+  const closePrivacy = document.getElementById('closePrivacy');
+
+  if (privacyBtn && privacyModal && closePrivacy) {
+    privacyBtn.addEventListener('click', () => {
+      privacyModal.classList.add('active');
+    });
+
+    closePrivacy.addEventListener('click', () => {
+      privacyModal.classList.remove('active');
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target === privacyModal) {
+        privacyModal.classList.remove('active');
+      }
+    });
+  }
+</script>
