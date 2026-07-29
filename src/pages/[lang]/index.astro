@@ -70,7 +70,9 @@ const capabilities = [
           )}
         </div>
       </div>
-      <img src="/images/miljoefyrtaarn.svg" alt="Miljøfyrtårn" class="miljo-logo" />
+      <a href="https://portal.miljofyrtarn.no/organizations/42546/documents" target="_blank" rel="noopener noreferrer" class="miljo-logo-link" title="Miljøfyrtårn certificate">
+        <img src="/images/miljoefyrtaarn.svg" alt="Miljøfyrtårn" class="miljo-logo" />
+      </a>
     </header>
 
     <main>
@@ -161,8 +163,20 @@ const capabilities = [
     gap: 1rem;
   }
 
-  .site-header .miljo-logo {
+  .site-header .miljo-logo-link {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 180ms ease;
+  }
+
+  .site-header .miljo-logo-link:hover {
+    opacity: 0.7;
+  }
+
+  .site-header .miljo-logo {
+    display: block;
   }
 
   .miljo-logo {
