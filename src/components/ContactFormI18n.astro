@@ -94,10 +94,12 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 	}
 
 	label {
-		font-size: 0.9rem;
-		font-weight: 500;
+		font-size: 1rem;
+		font-weight: 600;
 		color: #f3efe6;
-		letter-spacing: 0.03em;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		font-family: inherit;
 	}
 
 	.form-group.checkbox label {
@@ -117,7 +119,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		background: rgba(255, 255, 255, 0.03);
 		color: #f3efe6;
 		font-family: inherit;
-		font-size: 0.95rem;
+		font-size: 1rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
 		border-radius: 2px;
 		transition:
 			border-color 180ms ease,
