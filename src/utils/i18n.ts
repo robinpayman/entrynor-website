@@ -17,7 +17,7 @@ export const translations = {
 
     // Hero Section
     tagline: "Norsk leverandør - Globale kunder",
-    productsDescription: "HOTELLER, SPA, BADELAND, BEDRIFTER, TRENINGSSENTERE, LADESTASJONER, BIBLIOTEK, LAGER OG MYE MER",
+    productsDescription: "HOTELLER, SPA, BADELAND, BEDRIFTER, TRENINGSSENTERE, KLATRESENTER, LADESTASJONER, BIBLIOTEK, LAGER OG MYE MER",
     heroTitle: "",
     heroDescription: "",
     startConversation: "Kontakt",
@@ -87,7 +87,7 @@ export const translations = {
 
     // Hero Section
     tagline: "Norwegian supplier - Global customers",
-    productsDescription: "HOTELS, SPAS, WATER PARKS, BUSINESSES, FITNESS CENTERS, CHARGING STATIONS, LIBRARIES, WAREHOUSES AND MORE",
+    productsDescription: "HOTELS, SPAS, WATER PARKS, BUSINESSES, FITNESS CENTERS, CLIMBING CENTERS, CHARGING STATIONS, LIBRARIES, WAREHOUSES AND MORE",
     heroTitle: "",
     heroDescription: "",
     startConversation: "Contact",
