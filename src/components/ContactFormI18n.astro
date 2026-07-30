@@ -19,7 +19,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 <input type="hidden" id="company" name="company" />
 <input type="hidden" id="recaptchaToken" name="recaptchaToken" />
 
-<form class="contact-form" id="contactForm" method="POST" action={import.meta.env.PUBLIC_AZURE_FUNCTION_URL || 'https://entrynor-contact.azurewebsites.net/api/contact-form'} data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
+<form class="contact-form" id="contactForm" method="POST" action={import.meta.env.PUBLIC_AZURE_FUNCTION_URL || 'https://ata-domain.tempurl.host/api/contact-form'} data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
