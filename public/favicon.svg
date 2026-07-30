@@ -1,20 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Dark background -->
-  <rect width="100" height="100" fill="#080807"/>
-  
-  <!-- Golden E for Entrynor -->
-  <g>
-    <!-- Vertical bar -->
-    <rect x="18" y="20" width="12" height="60" fill="#c4a669"/>
-    
-    <!-- Top horizontal bar -->
-    <rect x="18" y="20" width="45" height="12" fill="#c4a669"/>
-    
-    <!-- Middle horizontal bar -->
-    <rect x="18" y="54" width="38" height="12" fill="#c4a669"/>
-    
-    <!-- Bottom horizontal bar -->
-    <rect x="18" y="68" width="45" height="12" fill="#c4a669"/>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Entrynor Logo - Golden E -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 647.49 508.88" style="enable-background:new 0 0 647.49 508.88;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#c4a669;}
+</style>
+<g>
+	<rect x="34.08" y="42.27" class="st0" width="100.59" height="426"/>
+</g>
+<g>
+	<polygon class="st0" points="222.21,42.27 369.84,42.27 606.21,305.6 606.21,468.27 600.24,468.27 222.21,49.28 	"/>
+</g>
+<g>
+	<path class="st0" d="M251.21,321.27v-150h-7.37c0,0-16.62,45.05-84.63,72.89v6.44c0,0,44.83,10.02,86.35,70.67H251.21z"/>
+</g>
+<g>
+	<path class="st0" d="M353.21,333.27v135h-118v-6.55c0,0,72.19-59.02,110.11-128.45H353.21z"/>
+</g>
+<g>
+	<path class="st0" d="M489.21,49.76v-7.49h117v133h-8.37C597.84,175.27,558.18,102.08,489.21,49.76z"/>
+</g>
 </svg>
