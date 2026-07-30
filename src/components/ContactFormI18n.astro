@@ -15,12 +15,12 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 <!-- reCAPTCHA Script -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-<!-- Hidden company field for form submission -->
-<input type="hidden" id="company" name="company" />
-<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
-
 <!-- Contact form (now hosted on Vercel serverless function) -->
 <form class="contact-form" id="contactForm" method="POST" action="/api/contact-form" data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
+	<!-- Hidden fields for form submission -->
+	<input type="hidden" id="company" name="company" />
+	<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
+
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
