@@ -7,14 +7,19 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "6Ler10QnAAAAAHPMsiNc97HAUkoLyOx9Bzm594Db";
 
 const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
 ---
 
+<!-- reCAPTCHA Script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <!-- Hidden company field for form submission -->
 <input type="hidden" id="company" name="company" />
+<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
 
-<form class="contact-form" id="contactForm" method="POST" action={`/${lang}/api/contact`} data-email={CONTACT_EMAIL} novalidate>
+<form class="contact-form" id="contactForm" method="POST" action={import.meta.env.PUBLIC_AZURE_FUNCTION_URL || 'https://entrynor-contact.azurewebsites.net/api/contact-form'} data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
@@ -285,8 +290,22 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				return;
 			}
 
+			// Get reCAPTCHA token
+			const siteKey = form.getAttribute('data-recaptcha-site-key');
+			let recaptchaToken = '';
+			
+			if (siteKey && typeof window !== 'undefined' && (window as any).grecaptcha) {
+				try {
+					recaptchaToken = await (window as any).grecaptcha.execute(siteKey, { action: 'submit' });
+				} catch (err) {
+					console.error('reCAPTCHA error:', err);
+					recaptchaToken = '';
+				}
+			}
+
 			const formData = new FormData(form);
-			const data = Object.fromEntries(formData);
+			const data = Object.fromEntries(formData) as any;
+			data.recaptchaToken = recaptchaToken;
 
 			try {
 				const response = await fetch(form.getAttribute("action") || "/api/contact", {

@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
 
+// Mark this endpoint as server-rendered
+export const prerender = false;
+
 interface ContactFormData {
   name: string;
   phone: string;
@@ -63,21 +66,39 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
       }).toString(),
     });
 
+    const responseText = await response.text();
+    
     if (!response.ok) {
-      throw new Error(`reCAPTCHA verification failed: ${response.statusText}`);
+      console.error('reCAPTCHA API error:', responseText);
+      return false;
     }
 
-    const data = (await response.json()) as {
+    if (!responseText) {
+      console.warn('reCAPTCHA returned empty response');
+      return false;
+    }
+
+    const data = JSON.parse(responseText) as {
       success: boolean;
-      score: number;
-      action: string;
-      challenge_ts: string;
-      hostname: string;
+      score?: number;
+      action?: string;
+      challenge_ts?: string;
+      hostname?: string;
+      error_codes?: string[];
     };
 
+    if (!data.success) {
+      console.warn('reCAPTCHA verification unsuccessful:', data.error_codes);
+      return false;
+    }
+
+    // For v2, just check success flag
     // For v3, check score (0.0 - 1.0, where 1.0 is very likely legitimate)
-    // We'll accept scores >= 0.5 as legitimate
-    return data.success && data.score >= 0.5;
+    if (data.score !== undefined) {
+      return data.score >= 0.5;
+    }
+    
+    return true;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);
     return false;
