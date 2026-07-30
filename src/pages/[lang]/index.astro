@@ -68,8 +68,8 @@ const capabilities = [
           )}
         </div>
       </div>
-      <a href="/documents/Sertifikat18122025_Entrynor_AS.pdf" target="_blank" rel="noopener noreferrer" class="miljo-logo-link" title="Miljøfyrtårn certificate">
-        <img src="/images/miljoefyrtaarn.svg" alt="Miljøfyrtårn" class="miljo-logo" />
+      <a href="/documents/Sertifikat18122025_Entrynor_AS.pdf" target="_blank" rel="noopener noreferrer" class="miljo-logo-link" title={lang === "no" ? "Miljøfyrtårn certificate" : "Eco-Lighthouse certificate"}>
+        <img src={lang === "no" ? "/images/miljoefyrtaarn.svg" : "/images/eco-lighthouse.svg"} alt={lang === "no" ? "Miljøfyrtårn" : "Eco-Lighthouse"} class="miljo-logo" />
       </a>
     </header>
 

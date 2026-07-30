@@ -126,7 +126,7 @@ export const translations = {
     email: "Email",
     emailPlaceholder: "name@company.com",
     phone: "Phone",
-    phonePlaceholder: "+47 XX XX XX XX",
+    phonePlaceholder: "+XX XXX XXX XXXX",
     tellUsAboutProject: "Message",
     projectPlaceholder: "Message",
     privacy: "I agree to be contacted, send inquiry",
