@@ -198,21 +198,9 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 	}
 
 	.submit-button.success {
-		animation: successBlink 0.6s ease-in-out infinite;
 		background: #22c55e;
 		border-color: #16a34a;
 		color: #ffffff;
-	}
-
-	@keyframes successBlink {
-		0%, 100% {
-			background: #22c55e;
-			opacity: 1;
-		}
-		50% {
-			background: #16a34a;
-			opacity: 0.8;
-		}
 	}
 
 	.form-notice {
