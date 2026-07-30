@@ -15,11 +15,7 @@ export function getStaticPaths() {
   }));
 }
 
-interface Props {
-  lang: string;
-}
-
-const { lang: langParam } = Astro.props as Props;
+const { lang: langParam } = Astro.params;
 let lang: Language = DEFAULT_LANGUAGE;
 
 // Explicitly handle language parameter
