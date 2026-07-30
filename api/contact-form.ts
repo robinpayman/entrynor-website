@@ -1,5 +1,3 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-
 // Types
 interface ContactFormData {
   name: string;
@@ -12,6 +10,19 @@ interface ContactFormData {
 interface GraphTokenResponse {
   access_token: string;
   expires_in: number;
+}
+
+interface VercelRequest {
+  body: any;
+  method?: string;
+  headers?: Record<string, string>;
+}
+
+interface VercelResponse {
+  status: (code: number) => VercelResponse;
+  json: (data: any) => void;
+  setHeader: (name: string, value: string) => void;
+  end: () => void;
 }
 
 // Environment variables
