@@ -197,6 +197,24 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		transform: translateY(0);
 	}
 
+	.submit-button.success {
+		animation: successBlink 0.6s ease-in-out infinite;
+		background: #22c55e;
+		border-color: #16a34a;
+		color: #ffffff;
+	}
+
+	@keyframes successBlink {
+		0%, 100% {
+			background: #22c55e;
+			opacity: 1;
+		}
+		50% {
+			background: #16a34a;
+			opacity: 0.8;
+		}
+	}
+
 	.form-notice {
 		font-size: 0.8rem;
 		color: rgba(243, 239, 230, 0.45);
@@ -307,8 +325,11 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 					// Show success message
 					const submitButton = form.querySelector(".submit-button") as HTMLButtonElement;
 					const originalText = submitButton.textContent;
-					submitButton.textContent = document.documentElement.lang === "no" ? "Melding sendt" : "Message Sent";
+					const successText = document.documentElement.lang === "no" ? "Melding sendt" : "Message Sent";
+					
+					submitButton.textContent = successText;
 					submitButton.disabled = true;
+					submitButton.classList.add('success');
 
 					// Reset form
 					form.reset();
@@ -317,11 +338,12 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 						input.parentElement?.classList.remove('has-error');
 					});
 
-					// Reset button after 3 seconds
+					// Reset button after 10 seconds
 					setTimeout(() => {
 						submitButton.textContent = originalText;
 						submitButton.disabled = false;
-					}, 3000);
+						submitButton.classList.remove('success');
+					}, 10000);
 				} else {
 					const errorData = await response.json().catch(() => ({}));
 					console.error('Form submission failed:', errorData);
