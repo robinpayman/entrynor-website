@@ -22,8 +22,11 @@ interface Props {
 const { lang: langParam } = Astro.props as Props;
 let lang: Language = DEFAULT_LANGUAGE;
 
-if (isValidLanguage(langParam)) {
-  lang = langParam;
+// Explicitly handle language parameter
+if (langParam === "no") {
+  lang = "no";
+} else if (langParam === "en") {
+  lang = "en";
 }
 
 const t = (key: keyof typeof import("../../utils/i18n").translations.no) => getTranslation(lang, key);
