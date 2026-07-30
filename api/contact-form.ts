@@ -239,14 +239,13 @@ export default async function handler(
       return response.status(400).json({ error: validation.error });
     }
 
-    // Verify reCAPTCHA
-    if (!data.recaptchaToken) {
-      return response.status(400).json({ error: 'reCAPTCHA token missing' });
-    }
-
-    const recaptchaValid = await verifyRecaptcha(data.recaptchaToken);
-    if (!recaptchaValid) {
-      return response.status(400).json({ error: 'reCAPTCHA verification failed' });
+    // Note: reCAPTCHA verification is optional for now
+    // If token is provided, verify it; otherwise continue
+    if (data.recaptchaToken) {
+      const recaptchaValid = await verifyRecaptcha(data.recaptchaToken);
+      if (!recaptchaValid) {
+        console.warn('reCAPTCHA verification failed, but continuing');
+      }
     }
 
     // Send email via Microsoft Graph

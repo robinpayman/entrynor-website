@@ -291,22 +291,8 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				return;
 			}
 
-			// Get reCAPTCHA token
-			const siteKey = form.getAttribute('data-recaptcha-site-key');
-			let recaptchaToken = '';
-			
-			if (siteKey && typeof window !== 'undefined' && (window as any).grecaptcha) {
-				try {
-					recaptchaToken = await (window as any).grecaptcha.execute(siteKey, { action: 'submit' });
-				} catch (err) {
-					console.error('reCAPTCHA error:', err);
-					recaptchaToken = '';
-				}
-			}
-
 			const formData = new FormData(form);
 			const data = Object.fromEntries(formData) as any;
-			data.recaptchaToken = recaptchaToken;
 
 			try {
 				const response = await fetch(form.getAttribute("action") || "/api/contact", {
@@ -337,6 +323,8 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 						submitButton.disabled = false;
 					}, 3000);
 				} else {
+					const errorData = await response.json().catch(() => ({}));
+					console.error('Form submission failed:', errorData);
 					alert(
 						document.documentElement.lang === "no"
 							? "Det oppstod en feil ved sending av meldingen. Vennligst prøv igjen."
