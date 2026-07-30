@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "certification": "Certification",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Premium Access Control Solutions",
+    "subtitle": "Trusted by businesses across Europe for secure, reliable access management",
+    "cta": "Explore Products"
+  },
+  "products": {
+    "title": "Our Products",
+    "subtitle": "Premium access control products designed for reliability and security",
+    "armbands": "Access Armbands",
+    "cards": "Access Cards",
+    "keyfobs": "Key Fobs",
+    "viewDetails": "View Details"
+  },
+  "certification": {
+    "title": "Miljøfyrtårn Certified",
+    "subtitle": "Environmental Leadership in Access Control Technology",
+    "description": "We are proud to be Miljøfyrtårn certified, demonstrating our commitment to sustainability and environmental responsibility in all our operations."
+  },
+  "about": {
+    "title": "About Entrynor",
+    "description": "Entrynor AS is a leading provider of access control solutions for businesses across Northern Europe. With decades of experience, we deliver secure, reliable, and innovative products."
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "email": "info@entrynor.no",
+    "phone": "+47 XXX XX XXX",
+    "cta": "Contact Us"
+  },
+  "footer": {
+    "copyright": "© 2026 Entrynor AS. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}
