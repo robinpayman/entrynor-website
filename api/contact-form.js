@@ -1,71 +1,19 @@
-// Types
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  recaptchaToken: string;
-}
-
-interface GraphTokenResponse {
-  access_token: string;
-  expires_in: number;
-}
-
-interface VercelRequest {
-  body: any;
-  method?: string;
-  headers?: Record<string, string>;
-}
-
-interface VercelResponse {
-  status: (code: number) => VercelResponse;
-  json: (data: any) => void;
-  setHeader: (name: string, value: string) => void;
-  end: () => void;
-}
-
 // Environment variables
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || '';
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'info@entrynor.no';
 const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || '';
 const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || '';
 const AZURE_CLIENT_SECRET = process.env.AZURE_CLIENT_SECRET || '';
-const EMAIL_SENDER = process.env.EMAIL_SENDER || 'noreply@entrynor.no';
 
-// Cache for Microsoft Graph token (expires after use)
-let cachedToken: { token: string; expiresAt: number } | null = null;
+let cachedToken = null;
 
 /**
- * Verify reCAPTCHA token with Google
+ * Get Microsoft Graph access token
  */
-async function verifyRecaptcha(token: string): Promise<boolean> {
-  try {
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `secret=${RECAPTCHA_SECRET}&response=${token}`,
-    });
-
-    const data = await response.json();
-    // reCAPTCHA v2 returns success: true/false
-    // reCAPTCHA v3 returns score (0.0 to 1.0)
-    return data.success && (data.score === undefined || data.score > 0.5);
-  } catch (error) {
-    console.error('reCAPTCHA verification error:', error);
-    return false;
-  }
-}
-
-/**
- * Get Microsoft Graph access token using Client Credentials flow
- */
-async function getGraphToken(): Promise<string> {
+async function getGraphToken() {
   const now = Date.now();
-
-  // Return cached token if still valid (with 60s buffer)
+  
+  // Return cached token if still valid
   if (cachedToken && cachedToken.expiresAt > now + 60000) {
     return cachedToken.token;
   }
@@ -91,7 +39,7 @@ async function getGraphToken(): Promise<string> {
       throw new Error(`Token request failed: ${response.status}`);
     }
 
-    const data: GraphTokenResponse = await response.json();
+    const data = await response.json();
     cachedToken = {
       token: data.access_token,
       expiresAt: now + data.expires_in * 1000,
@@ -107,11 +55,7 @@ async function getGraphToken(): Promise<string> {
 /**
  * Send email using Microsoft Graph API
  */
-async function sendEmail(
-  subject: string,
-  htmlBody: string,
-  toEmail: string
-): Promise<void> {
+async function sendEmail(subject, htmlBody, toEmail) {
   try {
     const token = await getGraphToken();
 
@@ -152,7 +96,7 @@ async function sendEmail(
 /**
  * Format contact form data as HTML email
  */
-function formatEmailBody(data: ContactFormData): string {
+function formatEmailBody(data) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #c4a669;">New Contact Form Submission</h2>
@@ -184,8 +128,8 @@ function formatEmailBody(data: ContactFormData): string {
 /**
  * Basic HTML escaping
  */
-function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
+function escapeHtml(text) {
+  const map = {
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -196,9 +140,9 @@ function escapeHtml(text: string): string {
 }
 
 /**
- * Validate required fields
+ * Validate form data
  */
-function validateFormData(data: any): { valid: boolean; error?: string } {
+function validateFormData(data) {
   if (!data.name || typeof data.name !== 'string' || data.name.trim().length === 0) {
     return { valid: false, error: 'Name is required' };
   }
@@ -217,10 +161,7 @@ function validateFormData(data: any): { valid: boolean; error?: string } {
 /**
  * Main handler
  */
-export default async function handler(
-  request: VercelRequest,
-  response: VercelResponse
-): Promise<void> {
+export default async function handler(request, response) {
   // CORS headers
   response.setHeader('Access-Control-Allow-Credentials', 'true');
   response.setHeader('Access-Control-Allow-Origin', '*');
@@ -242,21 +183,12 @@ export default async function handler(
   }
 
   try {
-    const data: ContactFormData = request.body;
+    const data = request.body;
 
     // Validate form data
     const validation = validateFormData(data);
     if (!validation.valid) {
       return response.status(400).json({ error: validation.error });
-    }
-
-    // Note: reCAPTCHA verification is optional for now
-    // If token is provided, verify it; otherwise continue
-    if (data.recaptchaToken) {
-      const recaptchaValid = await verifyRecaptcha(data.recaptchaToken);
-      if (!recaptchaValid) {
-        console.warn('reCAPTCHA verification failed, but continuing');
-      }
     }
 
     // Send email via Microsoft Graph
@@ -271,6 +203,7 @@ export default async function handler(
     console.error('Contact form error:', error);
     return response.status(500).json({
       error: 'Failed to send message. Please try again later.',
+      details: error.message,
     });
   }
 }
