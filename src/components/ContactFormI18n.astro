@@ -17,12 +17,6 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 <!-- Contact form (now hosted on Vercel serverless function) -->
 <form class="contact-form" id="contactForm" method="POST" action="/api/contact-form" data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
-	<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
-	<!-- Honeypot: invisible to humans, bots fill it and get silently dropped -->
-	<div class="hp-field" aria-hidden="true">
-		<label for="company">Company</label>
-		<input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
-	</div>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
@@ -82,6 +76,13 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 	<button type="submit" class="submit-button">{t("privacy")}</button>
 	<p class="form-notice">{t("formNotice")}</p>
+	<!-- Kept last so they don't shift :nth-child grid placement of the fields above -->
+	<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
+	<!-- Honeypot: invisible to humans, bots fill it and get silently dropped -->
+	<div class="hp-field" aria-hidden="true">
+		<label for="company">Company</label>
+		<input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+	</div>
 </form>
 
 <style>
