@@ -5,6 +5,7 @@ const ENTRYNOR_INFO_EMAIL = 'info@entrynor.no';
 const ENTRYNOR_INFO_PASSWORD = process.env.ENTRYNOR_INFO_PASSWORD || '';
 const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || '';
 const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || '';
+const AZURE_CLIENT_SECRET = process.env.AZURE_CLIENT_SECRET || '';
 
 let cachedToken = null;
 
@@ -29,10 +30,11 @@ async function getGraphToken() {
         },
         body: new URLSearchParams({
           client_id: AZURE_CLIENT_ID,
+          client_secret: AZURE_CLIENT_SECRET,
           username: ENTRYNOR_INFO_EMAIL,
           password: ENTRYNOR_INFO_PASSWORD,
-          scope: 'https://graph.microsoft.com/.default',
           grant_type: 'password',
+          scope: 'https://graph.microsoft.com/.default',
         }).toString(),
       }
     );
