@@ -1,14 +1,15 @@
 // Environment variables
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || '';
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'info@entrynor.no';
+const ENTRYNOR_INFO_EMAIL = 'info@entrynor.no';
+const ENTRYNOR_INFO_PASSWORD = process.env.ENTRYNOR_INFO_PASSWORD || '';
 const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || '';
 const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || '';
-const AZURE_CLIENT_SECRET = process.env.AZURE_CLIENT_SECRET || '';
 
 let cachedToken = null;
 
 /**
- * Get Microsoft Graph access token
+ * Get Microsoft Graph access token using Resource Owner Password Credentials flow
  */
 async function getGraphToken() {
   const now = Date.now();
@@ -28,15 +29,17 @@ async function getGraphToken() {
         },
         body: new URLSearchParams({
           client_id: AZURE_CLIENT_ID,
-          client_secret: AZURE_CLIENT_SECRET,
+          username: ENTRYNOR_INFO_EMAIL,
+          password: ENTRYNOR_INFO_PASSWORD,
           scope: 'https://graph.microsoft.com/.default',
-          grant_type: 'client_credentials',
+          grant_type: 'password',
         }).toString(),
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Token request failed: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Token request failed: ${response.status} - ${JSON.stringify(errorData)}`);
     }
 
     const data = await response.json();
@@ -53,7 +56,7 @@ async function getGraphToken() {
 }
 
 /**
- * Send email using Microsoft Graph API
+ * Send email using Microsoft Graph API as info@entrynor.no
  */
 async function sendEmail(subject, htmlBody, toEmail) {
   try {
@@ -79,14 +82,23 @@ async function sendEmail(subject, htmlBody, toEmail) {
               },
             },
           ],
+          from: {
+            emailAddress: {
+              address: ENTRYNOR_INFO_EMAIL,
+              name: 'Entrynor Contact Form',
+            },
+          },
         },
-        saveToSentItems: false,
+        saveToSentItems: true,
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`Email send failed: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Email send failed: ${response.status} - ${JSON.stringify(errorData)}`);
     }
+
+    console.log('Email sent successfully from', ENTRYNOR_INFO_EMAIL);
   } catch (error) {
     console.error('Email send error:', error);
     throw error;
