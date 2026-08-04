@@ -25,14 +25,34 @@ function escapeHtml(text) {
 }
 
 /**
- * Validate form data (same rules as before)
+ * Validate form data (strict, mirrors the frontend rules)
+ * - Name: letters only (incl. Norwegian/accented), spaces, hyphens, apostrophes, periods; 2-60 chars
+ * - Phone: optional leading +, 8-15 digits; spaces, hyphens, parentheses allowed as separators
+ * - Email: basic format check
  */
+const NAME_REGEX = /^[\p{L}][\p{L}' .\-]{1,59}$/u;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 function validateFormData(data) {
   if (!data || typeof data !== 'object') return { valid: false, error: 'Invalid request body' };
-  if (!data.name || !String(data.name).trim()) return { valid: false, error: 'Name is required' };
-  if (!data.email || !String(data.email).includes('@')) return { valid: false, error: 'Valid email is required' };
-  if (!data.phone || !String(data.phone).trim()) return { valid: false, error: 'Phone is required' };
-  if (!data.message || !String(data.message).trim()) return { valid: false, error: 'Message is required' };
+
+  const name = String(data.name || '').trim();
+  if (!name) return { valid: false, error: 'Name is required' };
+  if (!NAME_REGEX.test(name)) return { valid: false, error: 'Name may only contain letters, spaces, hyphens and apostrophes' };
+
+  const email = String(data.email || '').trim();
+  if (!email || !EMAIL_REGEX.test(email)) return { valid: false, error: 'Valid email is required' };
+
+  const phone = String(data.phone || '').trim();
+  if (!phone) return { valid: false, error: 'Phone is required' };
+  const phoneDigits = phone.replace(/[\s()\-.]/g, '');
+  if (!/^\+?\d{8,15}$/.test(phoneDigits)) {
+    return { valid: false, error: 'Phone must contain 8-15 digits and may start with + (only digits, spaces, hyphens and parentheses allowed)' };
+  }
+
+  const message = String(data.message || '').trim();
+  if (!message) return { valid: false, error: 'Message is required' };
+
   return { valid: true };
 }
 
@@ -166,6 +186,15 @@ export default async function handler(request, response) {
     }
 
     const data = request.body;
+
+    // Honeypot: bots fill the hidden "company" field. Pretend success, send nothing.
+    if (data && String(data.company || '').trim() !== '') {
+      console.warn('Honeypot triggered - dropping bot submission silently');
+      return response.status(200).json({
+        success: true,
+        message: 'Message submitted successfully. We will contact you soon.',
+      });
+    }
 
     // Validate form data
     const validation = validateFormData(data);

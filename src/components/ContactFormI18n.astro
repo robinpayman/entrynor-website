@@ -12,15 +12,17 @@ const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "6Ler10Q
 const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
 ---
 
-<!-- reCAPTCHA Script -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-<!-- Hidden company field for form submission -->
-<input type="hidden" id="company" name="company" />
-<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
+<!-- reCAPTCHA v3 Script -->
+<script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} async defer></script>
 
 <!-- Contact form (now hosted on Vercel serverless function) -->
 <form class="contact-form" id="contactForm" method="POST" action="/api/contact-form" data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
+	<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
+	<!-- Honeypot: invisible to humans, bots fill it and get silently dropped -->
+	<div class="hp-field" aria-hidden="true">
+		<label for="company">Company</label>
+		<input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+	</div>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
@@ -28,10 +30,12 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			id="name"
 			name="name"
 			placeholder={t("fullName")}
+			pattern="[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ' .\-]{1,59}"
+			maxlength="60"
 			required
 			aria-required="true"
 		/>
-		<span class="error-message" data-field="name">{t("yourName")} er påkrevd</span>
+		<span class="error-message" data-field="name">{lang === "no" ? "Skriv inn et gyldig navn (kun bokstaver)" : "Enter a valid name (letters only)"}</span>
 	</div>
 
 	<div class="form-group">
@@ -41,10 +45,13 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			id="phone"
 			name="phone"
 			placeholder={t("phonePlaceholder")}
+			pattern="[+]?[0-9][0-9 ()\-]{6,18}"
+			maxlength="20"
+			inputmode="tel"
 			required
 			aria-required="true"
 		/>
-		<span class="error-message" data-field="phone">{t("phone")} er påkrevd</span>
+		<span class="error-message" data-field="phone">{lang === "no" ? "Skriv inn et gyldig telefonnummer (kun tall, + og mellomrom)" : "Enter a valid phone number (digits, + and spaces only)"}</span>
 	</div>
 
 	<div class="form-group">
@@ -78,6 +85,16 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 </form>
 
 <style>
+	/* Honeypot: visually hidden but present for bots */
+	.hp-field {
+		position: absolute !important;
+		left: -9999px !important;
+		top: auto !important;
+		width: 1px !important;
+		height: 1px !important;
+		overflow: hidden !important;
+	}
+
 	.contact-form {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
@@ -302,6 +319,18 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 			const formData = new FormData(form);
 			const data = Object.fromEntries(formData) as any;
+
+			// Execute reCAPTCHA v3 (graceful fallback: form still works if unavailable)
+			try {
+				const siteKey = form.getAttribute("data-recaptcha-site-key");
+				const grecaptcha = (window as any).grecaptcha;
+				if (siteKey && grecaptcha) {
+					await new Promise<void>((resolve) => grecaptcha.ready(() => resolve()));
+					data.recaptchaToken = await grecaptcha.execute(siteKey, { action: "contact" });
+				}
+			} catch (recaptchaError) {
+				console.warn("reCAPTCHA unavailable:", recaptchaError);
+			}
 
 			try {
 				const response = await fetch(form.getAttribute("action") || "/api/contact", {
