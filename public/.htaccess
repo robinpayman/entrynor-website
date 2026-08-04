@@ -1,0 +1,69 @@
+# Entrynor static site (Astro build) — Apache config for webhotell shared hosting.
+# Replaces the previous WordPress/Kadence .htaccess. There is no PHP application
+# here, so no front-controller rewrite to index.php.
+
+# Serve index.html for directory requests (WordPress used index.php).
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	# Force HTTPS. HTTP_X_FORWARDED_PROTO is checked because the hosting sits
+	# behind a TLS-terminating proxy.
+	RewriteCond %{HTTPS} !=on
+	RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+	# Canonical host: apex. Mirrors the redirect WordPress used to perform.
+	RewriteCond %{HTTP_HOST} ^www\.entrynor\.no$ [NC]
+	RewriteRule ^ https://entrynor.no%{REQUEST_URI} [R=301,L]
+
+	# Root goes to the Norwegian site. 302 (not 301) so the default language
+	# can be changed later without fighting cached permanent redirects.
+	RewriteRule ^$ /no/ [R=302,L]
+</IfModule>
+
+# Long cache for fingerprinted build assets; short for everything else.
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 1 hour"
+	ExpiresByType text/css "access plus 1 year"
+	ExpiresByType application/javascript "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 30 days"
+	ExpiresByType image/jpeg "access plus 30 days"
+	ExpiresByType image/png "access plus 30 days"
+	ExpiresByType image/webp "access plus 30 days"
+	ExpiresByType font/woff2 "access plus 1 year"
+	ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+	Header always set X-Content-Type-Options "nosniff"
+	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+	Header always set X-Frame-Options "SAMEORIGIN"
+	# Astro hashes asset filenames, so they are safe to cache immutably.
+	<FilesMatch "\.(css|js|woff2)$">
+		Header set Cache-Control "public, max-age=31536000, immutable"
+	</FilesMatch>
+	<FilesMatch "\.html$">
+		Header set Cache-Control "public, max-age=0, must-revalidate"
+	</FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+	AddOutputFilterByType DEFLATE application/javascript application/json
+	AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Don't serve dotfiles or editor/VCS leftovers.
+<FilesMatch "^\.|(\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~)$">
+	Require all denied
+</FilesMatch>
+
+# Keep the canonical .htaccess itself readable to Apache only.
+<Files ".htaccess">
+	Require all denied
+</Files>
+
+Options -Indexes

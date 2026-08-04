@@ -8,6 +8,10 @@ interface Props {
 
 const { lang } = Astro.props;
 const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "6Ler10QnAAAAAHPMsiNc97HAUkoLyOx9Bzm594Db";
+// Absolute URL: the site is served as static files from webhotell (no server-side
+// runtime), so the form must post cross-origin to the Vercel serverless function.
+const CONTACT_API_URL =
+  import.meta.env.PUBLIC_CONTACT_API_URL || "https://minor-mercury.vercel.app/api/contact-form";
 
 const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTranslation(lang, key);
 ---
@@ -15,8 +19,8 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 <!-- reCAPTCHA v3 Script -->
 <script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} async defer></script>
 
-<!-- Contact form (now hosted on Vercel serverless function) -->
-<form class="contact-form" id="contactForm" method="POST" action="/api/contact-form" data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
+<!-- Contact form (posts to the Vercel serverless function) -->
+<form class="contact-form" id="contactForm" method="POST" action={CONTACT_API_URL} data-email={CONTACT_EMAIL} data-recaptcha-site-key={RECAPTCHA_SITE_KEY} novalidate>
 	<div class="form-group">
 		<label for="name">{t("yourName")}</label>
 		<input
@@ -39,13 +43,14 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			id="phone"
 			name="phone"
 			placeholder={t("phonePlaceholder")}
-			pattern="[+]?[0-9][0-9 ()\-]{6,18}"
 			maxlength="20"
 			inputmode="tel"
 			required
 			aria-required="true"
 		/>
-		<span class="error-message" data-field="phone">{lang === "no" ? "Skriv inn et gyldig telefonnummer (kun tall, + og mellomrom)" : "Enter a valid phone number (digits, + and spaces only)"}</span>
+		<!-- No `pattern` here on purpose: the digit-count rule is enforced in JS so it
+		     matches the API exactly (8-15 digits) and can report a precise message. -->
+		<span class="error-message" data-field="phone">{lang === "no" ? "Skriv inn 8–15 sifre. Du kan bruke +, mellomrom og bindestrek." : "Enter 8–15 digits. You may use +, spaces and hyphens."}</span>
 	</div>
 
 	<div class="form-group">
@@ -76,6 +81,9 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 
 	<button type="submit" class="submit-button">{t("privacy")}</button>
 	<p class="form-notice">{t("formNotice")}</p>
+	<!-- Announced to screen readers and shown for errors the fields can't express
+	     (network failures, server errors). -->
+	<p class="form-status" role="status" aria-live="polite" hidden></p>
 	<!-- Kept last so they don't shift :nth-child grid placement of the fields above -->
 	<input type="hidden" id="recaptchaToken" name="recaptchaToken" />
 	<!-- Honeypot: invisible to humans, bots fill it and get silently dropped -->
@@ -255,6 +263,34 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 		display: none;
 	}
 
+	.form-status {
+		grid-column: 1 / -1;
+		margin: 0.6rem 0 0;
+		padding: 0.85rem 1rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		border-radius: 2px;
+		text-align: center;
+	}
+
+	.form-status[hidden] {
+		display: none;
+	}
+
+	.form-status.is-error {
+		border: 1px solid rgba(224, 122, 95, 0.55);
+		background: rgba(224, 122, 95, 0.12);
+		color: #f0b8a6;
+	}
+
+	.form-status.is-success {
+		border: 1px solid rgba(196, 166, 105, 0.6);
+		background: rgba(196, 166, 105, 0.14);
+		color: #f7e6bd;
+	}
+
 	/* Responsive */
 	@media (max-width: 900px) {
 		.contact-form {
@@ -287,34 +323,103 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 	const form = document.getElementById("contactForm");
 
 	if (form) {
+		const isNo = () => document.documentElement.lang === "no";
 		const inputs = form.querySelectorAll('input[required], textarea[required]');
+		const status = form.querySelector(".form-status") as HTMLParagraphElement | null;
+
+		// Field-level messages, kept in sync with the API's validation rules in
+		// api/contact-form.js. If one side changes, change the other.
+		const messages = {
+			name: () => (isNo()
+				? "Skriv inn et gyldig navn (kun bokstaver, 2\u201360 tegn)."
+				: "Enter a valid name (letters only, 2\u201360 characters)."),
+			phone: () => (isNo()
+				? "Telefonnummeret m\u00e5 inneholde 8\u201315 sifre. Du kan bruke +, mellomrom, bindestrek og parenteser."
+				: "Phone must contain 8\u201315 digits. You may use +, spaces, hyphens and parentheses."),
+			email: () => (isNo()
+				? "Skriv inn en gyldig e-postadresse."
+				: "Enter a valid email address."),
+			message: () => (isNo() ? "Skriv en melding." : "Enter a message."),
+		};
+
+		const setStatus = (text: string, kind: "error" | "success" | null) => {
+			if (!status) return;
+			status.classList.remove("is-error", "is-success");
+			if (!text || !kind) {
+				status.hidden = true;
+				status.textContent = "";
+				return;
+			}
+			status.textContent = text;
+			status.classList.add(kind === "error" ? "is-error" : "is-success");
+			status.hidden = false;
+		};
+
+		const markError = (field: string, message?: string) => {
+			const input = form.querySelector(`[name="${field}"]`) as HTMLElement | null;
+			if (!input) return false;
+			input.classList.add("has-error");
+			input.parentElement?.classList.add("has-error");
+			input.setAttribute("aria-invalid", "true");
+			if (message) {
+				const hint = form.querySelector(`.error-message[data-field="${field}"]`);
+				if (hint) hint.textContent = message;
+			}
+			return true;
+		};
+
+		const clearError = (input: Element) => {
+			input.classList.remove("has-error");
+			input.parentElement?.classList.remove("has-error");
+			input.removeAttribute("aria-invalid");
+		};
+
+		// Mirrors the API check: strip separators, then require 8-15 digits with optional +.
+		const phoneIsValid = (value: string) =>
+			/^\+?\d{8,15}$/.test(value.trim().replace(/[\s()\-.]/g, ""));
+
 		inputs.forEach(input => {
 			input.addEventListener('invalid', (e) => {
 				e.preventDefault();
 			}, true);
 			input.addEventListener('input', () => {
-				input.classList.remove('has-error');
-				input.parentElement?.classList.remove('has-error');
+				clearError(input);
+				setStatus("", null);
 			});
 
 			input.addEventListener('focus', () => {
-				input.classList.remove('has-error');
-				input.parentElement?.classList.remove('has-error');
+				clearError(input);
 			});
 		});
 
 		form.addEventListener("submit", async (e) => {
 			e.preventDefault();
-			// Manual validation
-			let isValid = true;
+			setStatus("", null);
+
+			// Manual validation. Collect every problem so the user sees all of them at once.
+			let firstInvalid: HTMLElement | null = null;
 			inputs.forEach(input => {
-				if (!input.checkValidity()) {
-					isValid = false;
-					input.classList.add('has-error');
-					input.parentElement?.classList.add('has-error');
+				const el = input as HTMLInputElement | HTMLTextAreaElement;
+				const field = el.name as keyof typeof messages;
+				const isPhone = field === "phone";
+				const valid = isPhone
+					? el.value.trim().length > 0 && phoneIsValid(el.value)
+					: el.checkValidity();
+
+				if (!valid) {
+					markError(field, messages[field]?.());
+					if (!firstInvalid) firstInvalid = el;
 				}
 			});
-			if (!isValid) {
+
+			if (firstInvalid) {
+				setStatus(
+					isNo()
+						? "Kontroller de markerte feltene og pr\u00f8v igjen."
+						: "Please check the highlighted fields and try again.",
+					"error"
+				);
+				(firstInvalid as HTMLElement).focus();
 				return;
 			}
 
@@ -334,7 +439,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			}
 
 			try {
-				const response = await fetch(form.getAttribute("action") || "/api/contact", {
+				const response = await fetch(form.getAttribute("action") || "https://minor-mercury.vercel.app/api/contact-form", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -352,34 +457,58 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 					submitButton.disabled = true;
 					submitButton.classList.add('success');
 
+					setStatus(
+						isNo()
+							? "Takk! Meldingen er sendt. Vi kontakter deg snart."
+							: "Thank you! Your message has been sent. We'll be in touch soon.",
+						"success"
+					);
+
 					// Reset form
 					form.reset();
-					inputs.forEach(input => {
-						input.classList.remove('has-error');
-						input.parentElement?.classList.remove('has-error');
-					});
+					inputs.forEach(input => clearError(input));
 
 					// Reset button after 10 seconds
 					setTimeout(() => {
 						submitButton.textContent = originalText;
 						submitButton.disabled = false;
 						submitButton.classList.remove('success');
+						setStatus("", null);
 					}, 10000);
 				} else {
-					const errorData = await response.json().catch(() => ({}));
-					console.error('Form submission failed:', errorData);
-					alert(
-						document.documentElement.lang === "no"
-							? "Det oppstod en feil ved sending av meldingen. Vennligst prøv igjen."
-							: "There was an error sending your message. Please try again."
-					);
+					const errorData = await response.json().catch(() => ({} as any));
+					console.error("Form submission failed:", response.status, errorData);
+
+					// A 400 identifies the offending field, so highlight it and prefer the
+					// local translated message over the API's English one.
+					const field = errorData?.field;
+					if (field && markError(field, messages[field as keyof typeof messages]?.() || errorData.error)) {
+						setStatus(
+							isNo()
+								? "Kontroller de markerte feltene og pr\u00f8v igjen."
+								: "Please check the highlighted fields and try again.",
+							"error"
+						);
+						const el = form.querySelector(`[name="${field}"]`) as HTMLElement | null;
+						el?.focus();
+					} else {
+						setStatus(
+							errorData?.error ||
+								(isNo()
+									? `Kunne ikke sende meldingen (feil ${response.status}). Pr\u00f8v igjen, eller send e-post til info@entrynor.no.`
+									: `Could not send your message (error ${response.status}). Please try again, or email info@entrynor.no.`),
+							"error"
+						);
+					}
 				}
 			} catch (error) {
+				// Network failure, DNS, offline, or the request was blocked.
 				console.error("Form submission error:", error);
-				alert(
-					document.documentElement.lang === "no"
-						? "Det oppstod en feil ved sending av meldingen. Vennligst prøv igjen."
-						: "There was an error sending your message. Please try again."
+				setStatus(
+					isNo()
+						? "Ingen forbindelse til serveren. Sjekk nettverket og pr\u00f8v igjen, eller send e-post til info@entrynor.no."
+						: "Could not reach the server. Check your connection and try again, or email info@entrynor.no.",
+					"error"
 				);
 			}
 		});
