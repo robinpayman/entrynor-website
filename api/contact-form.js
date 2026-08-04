@@ -1,180 +1,146 @@
-// Environment variables
+// Entrynor Contact Form API — sends email via Resend (https://resend.com)
+// Replaces the previous Microsoft Graph ROPC flow which cannot work in a
+// serverless context (AADSTS65001 consent_required).
+//
+// Environment variables:
+// - RESEND_API_KEY        (required) Resend API key
+// - RECAPTCHA_SECRET_KEY  (optional) Google reCAPTCHA secret for verification
+// - SENDER_EMAIL          (optional) default: info@entrynor.no  (requires verified domain in Resend)
+// - RECIPIENT_EMAIL       (optional) default: info@entrynor.no
+// - FALLBACK_RECIPIENT    (optional) default: robin.payman@gmail.com (Resend account owner)
+
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET_KEY || '';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'info@entrynor.no';
-const ENTRYNOR_INFO_EMAIL = 'info@entrynor.no';
-const ENTRYNOR_INFO_PASSWORD = process.env.ENTRYNOR_INFO_PASSWORD || '';
-const AZURE_TENANT_ID = process.env.AZURE_TENANT_ID || '';
-const AZURE_CLIENT_ID = process.env.AZURE_CLIENT_ID || '';
-const AZURE_CLIENT_SECRET = process.env.AZURE_CLIENT_SECRET || '';
-
-let cachedToken = null;
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'info@entrynor.no';
+const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || process.env.CONTACT_EMAIL || 'info@entrynor.no';
+const FALLBACK_SENDER = 'onboarding@resend.dev'; // always allowed by Resend
+const FALLBACK_RECIPIENT = process.env.FALLBACK_RECIPIENT || 'robin.payman@gmail.com'; // Resend account owner
 
 /**
- * Get Microsoft Graph access token using Resource Owner Password Credentials flow
- */
-async function getGraphToken() {
-  const now = Date.now();
-  
-  // Return cached token if still valid
-  if (cachedToken && cachedToken.expiresAt > now + 60000) {
-    return cachedToken.token;
-  }
-
-  try {
-    const response = await fetch(
-      `https://login.microsoftonline.com/${AZURE_TENANT_ID}/oauth2/v2.0/token`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          client_id: AZURE_CLIENT_ID,
-          client_secret: AZURE_CLIENT_SECRET,
-          username: ENTRYNOR_INFO_EMAIL,
-          password: ENTRYNOR_INFO_PASSWORD,
-          grant_type: 'password',
-          scope: 'https://graph.microsoft.com/.default',
-        }).toString(),
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Token request failed: ${response.status} - ${JSON.stringify(errorData)}`);
-    }
-
-    const data = await response.json();
-    cachedToken = {
-      token: data.access_token,
-      expiresAt: now + data.expires_in * 1000,
-    };
-
-    return data.access_token;
-  } catch (error) {
-    console.error('Microsoft Graph token error:', error);
-    throw error;
-  }
-}
-
-/**
- * Send email using Microsoft Graph API as info@entrynor.no
- */
-async function sendEmail(subject, htmlBody, toEmail) {
-  try {
-    const token = await getGraphToken();
-
-    const response = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: {
-          subject,
-          body: {
-            contentType: 'HTML',
-            content: htmlBody,
-          },
-          toRecipients: [
-            {
-              emailAddress: {
-                address: toEmail,
-              },
-            },
-          ],
-          from: {
-            emailAddress: {
-              address: ENTRYNOR_INFO_EMAIL,
-              name: 'Entrynor Contact Form',
-            },
-          },
-        },
-        saveToSentItems: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Email send failed: ${response.status} - ${JSON.stringify(errorData)}`);
-    }
-
-    console.log('Email sent successfully from', ENTRYNOR_INFO_EMAIL);
-  } catch (error) {
-    console.error('Email send error:', error);
-    throw error;
-  }
-}
-
-/**
- * Format contact form data as HTML email
- */
-function formatEmailBody(data) {
-  return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #c4a669;">New Contact Form Submission</h2>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr style="border-bottom: 1px solid #e0e0e0;">
-          <td style="padding: 12px; font-weight: bold; width: 120px;">Name:</td>
-          <td style="padding: 12px;">${escapeHtml(data.name)}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #e0e0e0;">
-          <td style="padding: 12px; font-weight: bold;">Email:</td>
-          <td style="padding: 12px;"><a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></td>
-        </tr>
-        <tr style="border-bottom: 1px solid #e0e0e0;">
-          <td style="padding: 12px; font-weight: bold;">Phone:</td>
-          <td style="padding: 12px;"><a href="tel:${escapeHtml(data.phone)}">${escapeHtml(data.phone)}</a></td>
-        </tr>
-        <tr>
-          <td style="padding: 12px; font-weight: bold; vertical-align: top;">Message:</td>
-          <td style="padding: 12px;">${escapeHtml(data.message).replace(/\n/g, '<br>')}</td>
-        </tr>
-      </table>
-      <p style="color: #999; font-size: 12px; margin-top: 20px;">
-        This email was sent from the Entrynor contact form.
-      </p>
-    </div>
-  `;
-}
-
-/**
- * Basic HTML escaping
+ * Escape HTML special characters
  */
 function escapeHtml(text) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
-  return text.replace(/[&<>"']/g, (char) => map[char]);
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return String(text).replace(/[&<>"']/g, (m) => map[m]);
 }
 
 /**
- * Validate form data
+ * Validate form data (same rules as before)
  */
 function validateFormData(data) {
-  if (!data.name || typeof data.name !== 'string' || data.name.trim().length === 0) {
-    return { valid: false, error: 'Name is required' };
-  }
-  if (!data.email || typeof data.email !== 'string' || !data.email.includes('@')) {
-    return { valid: false, error: 'Valid email is required' };
-  }
-  if (!data.phone || typeof data.phone !== 'string' || data.phone.trim().length === 0) {
-    return { valid: false, error: 'Phone is required' };
-  }
-  if (!data.message || typeof data.message !== 'string' || data.message.trim().length === 0) {
-    return { valid: false, error: 'Message is required' };
-  }
+  if (!data || typeof data !== 'object') return { valid: false, error: 'Invalid request body' };
+  if (!data.name || !String(data.name).trim()) return { valid: false, error: 'Name is required' };
+  if (!data.email || !String(data.email).includes('@')) return { valid: false, error: 'Valid email is required' };
+  if (!data.phone || !String(data.phone).trim()) return { valid: false, error: 'Phone is required' };
+  if (!data.message || !String(data.message).trim()) return { valid: false, error: 'Message is required' };
   return { valid: true };
 }
 
 /**
- * Main handler
+ * Verify reCAPTCHA token with Google (soft check: only when a token is present)
  */
+async function verifyRecaptcha(token) {
+  if (!token || !RECAPTCHA_SECRET) return { valid: true, skipped: true };
+  try {
+    const resp = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${encodeURIComponent(RECAPTCHA_SECRET)}&response=${encodeURIComponent(token)}`,
+    });
+    const data = await resp.json();
+    if (data.success === false) {
+      return { valid: false, reason: (data['error-codes'] || []).join(', ') };
+    }
+    return { valid: true };
+  } catch (err) {
+    // Do not block submissions if Google is unreachable
+    console.warn('reCAPTCHA verification unavailable:', err.message);
+    return { valid: true, skipped: true };
+  }
+}
+
+/**
+ * Build the notification email HTML
+ */
+function formatEmailBody(data, note) {
+  return `
+<html>
+  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #c4a669;">New Contact Form Submission — Entrynor</h2>
+      <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px;">
+        <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
+        <p><strong>Email:</strong> <a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></p>
+        <p><strong>Phone:</strong> ${escapeHtml(data.phone)}</p>
+        <h3 style="margin-top: 16px;">Message:</h3>
+        <p>${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>
+      </div>
+      ${note ? `<p style="color:#a06500;font-size:0.9em;margin-top:12px;">${escapeHtml(note)}</p>` : ''}
+      <p style="margin-top: 16px; font-size: 0.85em; color: #666;">Submitted at ${new Date().toISOString()}</p>
+    </div>
+  </body>
+</html>`.trim();
+}
+
+/**
+ * Send one email via the Resend REST API. Returns { ok, id, error }.
+ */
+async function resendSend({ from, to, replyTo, subject, html }) {
+  const resp = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: `Entrynor Contact Form <${from}>`,
+      to: [to],
+      reply_to: replyTo,
+      subject,
+      html,
+    }),
+  });
+  const body = await resp.json().catch(() => ({}));
+  if (!resp.ok) {
+    return { ok: false, status: resp.status, error: body.message || JSON.stringify(body) };
+  }
+  return { ok: true, id: body.id };
+}
+
+/**
+ * Send with graceful fallbacks:
+ * 1. from SENDER_EMAIL to RECIPIENT_EMAIL          (works once entrynor.no is verified in Resend)
+ * 2. from onboarding@resend.dev to RECIPIENT_EMAIL (works if recipient restrictions allow)
+ * 3. from onboarding@resend.dev to account owner   (always works on free/unverified accounts)
+ */
+async function sendWithFallbacks(data) {
+  const subject = `New Contact Form Submission from ${data.name}`;
+  const attempts = [
+    { from: SENDER_EMAIL, to: RECIPIENT_EMAIL, note: '' },
+    { from: FALLBACK_SENDER, to: RECIPIENT_EMAIL, note: 'Sent via Resend fallback sender (verify entrynor.no in Resend to send from info@entrynor.no).' },
+    { from: FALLBACK_SENDER, to: FALLBACK_RECIPIENT, note: `Delivered to fallback recipient (${FALLBACK_RECIPIENT}) because Resend could not deliver to ${RECIPIENT_EMAIL}. Verify entrynor.no at https://resend.com/domains to receive at ${RECIPIENT_EMAIL}.` },
+  ];
+
+  const errors = [];
+  for (const attempt of attempts) {
+    const html = formatEmailBody(data, attempt.note);
+    const result = await resendSend({
+      from: attempt.from,
+      to: attempt.to,
+      replyTo: data.email,
+      subject,
+      html,
+    });
+    if (result.ok) {
+      console.log(`Email sent via Resend (from=${attempt.from}, to=${attempt.to}, id=${result.id})`);
+      return result;
+    }
+    errors.push(`from=${attempt.from} to=${attempt.to}: ${result.status} ${result.error}`);
+    console.warn(`Resend attempt failed: from=${attempt.from} to=${attempt.to}:`, result.status, result.error);
+  }
+  throw new Error(`All Resend attempts failed: ${errors.join(' | ')}`);
+}
+
 export default async function handler(request, response) {
   // CORS headers
   response.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -185,18 +151,20 @@ export default async function handler(request, response) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  // Handle preflight
   if (request.method === 'OPTIONS') {
-    response.status(200).end();
-    return;
+    return response.status(200).end();
   }
 
-  // Only allow POST
   if (request.method !== 'POST') {
     return response.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
+    if (!RESEND_API_KEY) {
+      console.error('Missing RESEND_API_KEY environment variable');
+      return response.status(500).json({ error: 'Email service not configured' });
+    }
+
     const data = request.body;
 
     // Validate form data
@@ -205,16 +173,26 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: validation.error });
     }
 
-    // Send email via Microsoft Graph
-    const emailBody = formatEmailBody(data);
-    await sendEmail('New Contact Form Submission from Entrynor', emailBody, CONTACT_EMAIL);
+    // Verify reCAPTCHA when provided
+    const recaptcha = await verifyRecaptcha(data.recaptchaToken);
+    if (!recaptcha.valid) {
+      console.warn('reCAPTCHA verification failed:', recaptcha.reason);
+      return response.status(400).json({ error: 'reCAPTCHA verification failed' });
+    }
 
-    // Log form submission for debugging
+    // Send email via Resend (with fallbacks so the form always works)
+    await sendWithFallbacks({
+      name: String(data.name).trim(),
+      email: String(data.email).trim(),
+      phone: String(data.phone).trim(),
+      message: String(data.message).trim(),
+    });
+
     console.log('Form submission received and email sent:', {
       name: data.name,
       email: data.email,
       phone: data.phone,
-      message: data.message.substring(0, 50) + '...',
+      message: String(data.message).substring(0, 50) + '...',
       timestamp: new Date().toISOString(),
     });
 
