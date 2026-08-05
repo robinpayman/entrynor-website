@@ -362,8 +362,11 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			input.parentElement?.classList.add("has-error");
 			input.setAttribute("aria-invalid", "true");
 			if (message) {
-				const hint = form.querySelector(`.error-message[data-field="${field}"]`);
-				if (hint) hint.textContent = message;
+				const hint = form.querySelector(`.error-message[data-field="${field}"]`) as HTMLElement | null;
+				if (hint) {
+					hint.textContent = message;
+					hint.style.display = 'block'; // Ensure it's always visible
+				}
 			}
 			return true;
 		};
@@ -383,12 +386,19 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				e.preventDefault();
 			}, true);
 			input.addEventListener('input', () => {
-				clearError(input);
-				setStatus("", null);
-			});
-
-			input.addEventListener('focus', () => {
-				clearError(input);
+				// Only clear error on input if the field is now valid
+				const el = input as HTMLInputElement | HTMLTextAreaElement;
+				const field = el.name as keyof typeof messages;
+				const isPhone = field === "phone";
+				const isNowValid = isPhone
+					? el.value.trim().length > 0 && phoneIsValid(el.value)
+					: el.checkValidity();
+				
+				if (isNowValid) {
+					clearError(input);
+				}
+				// Keep error visible while user is typing if still invalid
+				// (they see the message and can correct accordingly)
 			});
 		});
 
@@ -413,10 +423,34 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 			});
 
 			if (firstInvalid) {
+				const invalidFields: string[] = [];
+				inputs.forEach(input => {
+					const el = input as HTMLInputElement | HTMLTextAreaElement;
+					const field = el.name as keyof typeof messages;
+					const isPhone = field === "phone";
+					const valid = isPhone
+						? el.value.trim().length > 0 && phoneIsValid(el.value)
+						: el.checkValidity();
+					if (!valid) {
+						invalidFields.push(field);
+					}
+				});
+				
+				const fieldNames = {
+					name: isNo() ? "navn" : "name",
+					phone: isNo() ? "telefon" : "phone",
+					email: isNo() ? "e-post" : "email",
+					message: isNo() ? "melding" : "message"
+				};
+				
+				const fieldList = invalidFields
+					.map(f => fieldNames[f as keyof typeof fieldNames] || f)
+					.join(", ");
+				
 				setStatus(
 					isNo()
-						? "Kontroller de markerte feltene og pr\u00f8v igjen."
-						: "Please check the highlighted fields and try again.",
+						? `Kontroller følgende felt: ${fieldList}`
+						: `Please check the following fields: ${fieldList}`,
 					"error"
 				);
 				(firstInvalid as HTMLElement).focus();
@@ -483,10 +517,17 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 					// local translated message over the API's English one.
 					const field = errorData?.field;
 					if (field && markError(field, messages[field as keyof typeof messages]?.() || errorData.error)) {
+						const fieldNames = {
+							name: isNo() ? "navn" : "name",
+							phone: isNo() ? "telefon" : "phone",
+							email: isNo() ? "e-post" : "email",
+							message: isNo() ? "melding" : "message"
+						};
+						const fieldLabel = fieldNames[field as keyof typeof fieldNames] || field;
 						setStatus(
 							isNo()
-								? "Kontroller de markerte feltene og pr\u00f8v igjen."
-								: "Please check the highlighted fields and try again.",
+								? `Kontroller ${fieldLabel}-feltet og prøv igjen.`
+								: `Please check the ${fieldLabel} field and try again.`,
 							"error"
 						);
 						const el = form.querySelector(`[name="${field}"]`) as HTMLElement | null;
@@ -495,7 +536,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 						setStatus(
 							errorData?.error ||
 								(isNo()
-									? `Kunne ikke sende meldingen (feil ${response.status}). Pr\u00f8v igjen, eller send e-post til info@entrynor.no.`
+									? `Kunne ikke sende meldingen (feil ${response.status}). Prøv igjen, eller send e-post til info@entrynor.no.`
 									: `Could not send your message (error ${response.status}). Please try again, or email info@entrynor.no.`),
 							"error"
 						);
