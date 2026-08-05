@@ -386,7 +386,7 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 				e.preventDefault();
 			}, true);
 			input.addEventListener('input', () => {
-				// Only clear error on input if the field is now valid
+				// Only clear error on this specific field if it's now valid
 				const el = input as HTMLInputElement | HTMLTextAreaElement;
 				const field = el.name as keyof typeof messages;
 				const isPhone = field === "phone";
@@ -395,10 +395,10 @@ const t = (key: keyof typeof import("../utils/i18n").translations.no) => getTran
 					: el.checkValidity();
 				
 				if (isNowValid) {
+					// Only clear the error for THIS field
 					clearError(input);
 				}
-				// Keep error visible while user is typing if still invalid
-				// (they see the message and can correct accordingly)
+				// Do NOT clear form-level status message - let user see all errors at once
 			});
 		});
 
