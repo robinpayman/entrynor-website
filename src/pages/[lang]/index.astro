@@ -75,6 +75,13 @@ const capabilities = [
 
     <main>
       <section class="hero">
+        <!-- Motion video background - elegant desktop background -->
+        <video autoplay muted loop playsinline preload="metadata" class="hero-video" aria-hidden="true">
+          <source src="/videos/motion-hero.mp4" type="video/mp4" />
+        </video>
+        <!-- Gradient overlay for text readability -->
+        <div class="hero-overlay"></div>
+        
         <p class="eyebrow">{t("tagline")}</p>
         <div class="rfid-box">
           {lang === "no" ? "Din leverandør av RFID produkter" : "Your supplier of RFID products"}
@@ -247,6 +254,42 @@ const capabilities = [
     min-height: auto;
     align-content: start;
     padding: 10rem 0 5rem;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(8, 8, 7, 0.6) 0%,
+      rgba(18, 16, 13, 0.4) 50%,
+      rgba(7, 7, 7, 0.5) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero p,
+  .hero h1,
+  .hero .rfid-box,
+  .hero-actions {
+    position: relative;
+    z-index: 2;
   }
 
   .eyebrow {
