@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "astro",
-  "rootDirectory": "minor-mercury"
+  "framework": "astro"
 }
